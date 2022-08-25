@@ -2,6 +2,9 @@
     package="br.com.uber_clone.uber_clone">
 
    <uses-permission android:name="android.permission.INTERNET" />
+   <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+   <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+   <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
 
    <application
         android:label="uber_clone"
@@ -33,5 +36,7 @@
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
+     <meta-data android:name="com.google.android.geo.API_KEY"
+       android:value="AIzaSyAjMe9GaOX8fNWAh1mrx3UoJ2cYqScGRjg"/>
     </application>
 </manifest>

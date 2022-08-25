@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:uber_clone/application/home/loginpage.dart';
 import 'package:uber_clone/application/routes.dart';
+import 'application/login/loginpage.dart';
 
 final ThemeData defaultTheme = ThemeData(
   appBarTheme: const AppBarTheme(
