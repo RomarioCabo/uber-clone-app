@@ -1,6 +1,8 @@
-import 'dart:async';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:flutter/material.dart';
+
+import '../../../domain/store/paneldriver/paneldrivercontroller.dart';
 
 class PanelDriverPage extends StatefulWidget {
   const PanelDriverPage({Key? key}) : super(key: key);
@@ -10,8 +12,18 @@ class PanelDriverPage extends StatefulWidget {
 }
 
 class _PanelDriverPageState extends State<PanelDriverPage> {
+  late PanelDriverController _controller;
+
   List<String> itensMenu = ["Configurações", "Deslogar"];
-  final Completer<GoogleMapController> _controllerGoogle = Completer();
+
+  @override
+  void initState() {
+    super.initState();
+
+    _controller = PanelDriverController();
+    _controller.retriveCurrentPosition();
+    _controller.retrieveLastKnownPosition();
+  }
 
   _choiceMenuItem(String choice) {
     switch (choice) {
@@ -22,11 +34,7 @@ class _PanelDriverPageState extends State<PanelDriverPage> {
         break;
     }
   }
-
-  _onMapCreated(GoogleMapController controller) {
-    _controllerGoogle.complete(controller);
-  }
-
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -46,13 +54,15 @@ class _PanelDriverPageState extends State<PanelDriverPage> {
           )
         ],
       ),
-      body: GoogleMap(
-        mapType: MapType.normal,
-        initialCameraPosition: const CameraPosition(
-          target: LatLng(-23.563999, -46.653256),
-          zoom: 16,
-        ),
-        onMapCreated: _onMapCreated,
+      body: Observer(
+        builder: (_) {
+          return GoogleMap(
+            mapType: MapType.normal,
+            initialCameraPosition: _controller.positionCamera,
+            onMapCreated: _controller.onMapCreated,
+            myLocationEnabled: true,
+          );
+        },
       ),
     );
   }
