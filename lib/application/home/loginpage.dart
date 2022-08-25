@@ -1,18 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:uber_clone/ui/pages/signin/signinpage.dart';
-import 'package:uber_clone/ui/pages/util/custombuttom.dart';
-import 'package:uber_clone/ui/pages/util/textfield.dart';
+import 'package:uber_clone/application/util/custombuttom.dart';
+import 'package:uber_clone/application/util/textfield.dart';
 
-import '../util/messageerror.dart';
-
-class Home extends StatefulWidget {
-  const Home({Key? key}) : super(key: key);
+class LoginPage extends StatefulWidget {
+  const LoginPage({Key? key}) : super(key: key);
 
   @override
-  State<Home> createState() => _HomeState();
+  State<LoginPage> createState() => _LoginPageState();
 }
 
-class _HomeState extends State<Home> {
+class _LoginPageState extends State<LoginPage> {
   final TextEditingController _controllerEmail = TextEditingController();
   final TextEditingController _controllerPassword = TextEditingController();
 
@@ -57,19 +54,16 @@ class _HomeState extends State<Home> {
                 CustomButtom(
                   text: "Entrar",
                   color: 0xff1ebbd8,
+                  loading: false,
                   onPressed: () {},
+                  enable: true,
                 ),
                 Center(
                   child: Material(
                     color: Colors.transparent,
                     child: InkWell(
                       onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const SignInPage(),
-                          ),
-                        );
+                        Navigator.pushNamed(context, "/create_account");
                       },
                       child: Container(
                         padding: const EdgeInsets.all(8),
@@ -84,9 +78,6 @@ class _HomeState extends State<Home> {
                     ),
                   ),
                 ),
-                /*const MessageError(
-                  messageError: "Error",
-                ),*/
               ],
             ),
           ),
