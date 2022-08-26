@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:uber_clone/application/panel/paneldriver/paneldriverpage.dart';
-import 'package:uber_clone/application/panel/panelpassenger/panelpassengerpage.dart';
-import 'package:uber_clone/application/signin/signinpage.dart';
+import 'package:uber_clone/application/panel/panel_driver/panel_driver_page.dart';
+import 'package:uber_clone/application/panel/panel_passenger/panel_passenger_page.dart';
+import 'package:uber_clone/application/sign_in/sign_in_page.dart';
 
-import 'login/loginpage.dart';
+import 'login/login_page.dart';
 
 class Routes {
   static Route<dynamic> generateRoutes(RouteSettings settings) {
     switch (settings.name) {
       case "/login":
         return MaterialPageRoute(builder: (_) => const LoginPage());
-      case "/create_account":
+      case "/create-account":
         return MaterialPageRoute(builder: (_) => const SignInPage());
       case "/panel-passenger":
         return MaterialPageRoute(builder: (_) => const PanelPassengerPage());

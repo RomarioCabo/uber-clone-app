@@ -2,7 +2,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:flutter/material.dart';
 
-import '../../../domain/store/paneldriver/paneldrivercontroller.dart';
+import '../../../domain/store/panel_driver/panel_driver_controller_impl.dart';
 
 class PanelDriverPage extends StatefulWidget {
   const PanelDriverPage({Key? key}) : super(key: key);
@@ -12,18 +12,9 @@ class PanelDriverPage extends StatefulWidget {
 }
 
 class _PanelDriverPageState extends State<PanelDriverPage> {
-  late PanelDriverController _controller;
+  late PanelDriverControllerImpl _controller;
 
   List<String> itensMenu = ["Configurações", "Deslogar"];
-
-  @override
-  void initState() {
-    super.initState();
-
-    _controller = PanelDriverController();
-    _controller.retriveCurrentPosition();
-    _controller.retrieveLastKnownPosition();
-  }
 
   _choiceMenuItem(String choice) {
     switch (choice) {
@@ -34,7 +25,16 @@ class _PanelDriverPageState extends State<PanelDriverPage> {
         break;
     }
   }
-  
+
+  @override
+  void initState() {
+    super.initState();
+
+    _controller = PanelDriverControllerImpl();
+    _controller.retriveCurrentPosition();
+    _controller.retrieveLastKnownPosition();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

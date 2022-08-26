@@ -3,8 +3,8 @@ import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
-import 'package:uber_clone/domain/error/errormodel.dart';
-import 'package:uber_clone/infrastructure/helpers/apiexception.dart';
+import 'package:uber_clone/domain/error/error_model.dart';
+import 'package:uber_clone/infrastructure/helpers/api_exception.dart';
 
 class ApiBaseHelper {
   Future<dynamic> post({

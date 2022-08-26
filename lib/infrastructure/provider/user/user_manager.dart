@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
-import 'package:uber_clone/domain/user/authenticateusermodel.dart';
+import 'package:uber_clone/domain/user/authenticate_user_model.dart';
 import 'package:uber_clone/domain/user/user.dart';
-import 'package:uber_clone/infrastructure/helpers/apibasehelper.dart';
+import 'package:uber_clone/infrastructure/helpers/api_base_helper.dart';
 
 import '../../util/strings.dart';
 

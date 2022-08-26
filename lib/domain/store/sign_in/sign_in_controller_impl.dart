@@ -1,15 +1,16 @@
 import 'package:flutter/foundation.dart';
 import 'package:mobx/mobx.dart';
+import 'package:uber_clone/domain/store/sign_in/sign_in_controller.dart';
 
-import '../../../infrastructure/helpers/requeststate.dart';
-import '../../../infrastructure/provider/user/userproviderimpl.dart';
+import '../../../infrastructure/helpers/request_state.dart';
+import '../../../infrastructure/provider/user/user_provider_impl.dart';
 import '../../user/user.dart';
 
-part 'signincontroller.g.dart';
+part 'sign_in_controller_impl.g.dart';
 
-class SignInController = SignInControllerBase with _$SignInController;
+class SignInControllerImpl = SignInControllerBase with _$SignInControllerImpl;
 
-abstract class SignInControllerBase with Store {
+abstract class SignInControllerBase with Store implements SignInController {
   @observable
   RequestState stateSaveUser = Initial();
 
@@ -22,6 +23,7 @@ abstract class SignInControllerBase with Store {
   final UserProviderImpl _provider = UserProviderImpl();
 
   @action
+  @override
   Future<void> saveUser(
     String name,
     String lastName,
@@ -55,7 +57,7 @@ abstract class SignInControllerBase with Store {
   }
 
   String _buildTypeUser(bool isDriver) {
-    if(isDriver) {
+    if (isDriver) {
       return "DRIVER";
     }
 

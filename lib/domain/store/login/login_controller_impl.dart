@@ -1,16 +1,17 @@
 import 'package:flutter/foundation.dart';
 import 'package:mobx/mobx.dart';
 
-import '../../../infrastructure/helpers/requeststate.dart';
-import '../../../infrastructure/provider/user/userproviderimpl.dart';
-import '../../user/authenticateusermodel.dart';
+import '../../../infrastructure/helpers/request_state.dart';
+import '../../../infrastructure/provider/user/user_provider_impl.dart';
+import '../../user/authenticate_user_model.dart';
 import '../../user/user.dart';
+import 'login_controller.dart';
 
-part 'logincontroller.g.dart';
+part 'login_controller_impl.g.dart';
 
-class LoginController = LoginControllerBase with _$LoginController;
+class LoginControllerImpl = LoginControllerBase with _$LoginControllerImpl;
 
-abstract class LoginControllerBase with Store {
+abstract class LoginControllerBase with Store implements LoginController {
   @observable
   RequestState stateAuthenticate = Initial();
 
@@ -20,6 +21,7 @@ abstract class LoginControllerBase with Store {
   final UserProviderImpl _provider = UserProviderImpl();
 
   @action
+  @override
   Future<void> authenticate(String email, String password) async {
     try {
       stateAuthenticate = Loading();

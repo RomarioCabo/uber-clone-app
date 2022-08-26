@@ -2,11 +2,11 @@ import 'package:alert_dialog/alert_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:mobx/mobx.dart';
-import 'package:uber_clone/domain/store/signin/signincontroller.dart';
+import 'package:uber_clone/domain/store/sign_in/sign_in_controller_impl.dart';
 
-import '../../infrastructure/helpers/requeststate.dart';
-import '../util/custombuttom.dart';
-import '../util/textfield.dart';
+import '../../infrastructure/helpers/request_state.dart';
+import '../util/custom_buttom.dart';
+import '../util/text_field.dart';
 
 class SignInPage extends StatefulWidget {
   const SignInPage({Key? key}) : super(key: key);
@@ -16,7 +16,7 @@ class SignInPage extends StatefulWidget {
 }
 
 class _SignInPaheState extends State<SignInPage> {
-  late SignInController _controller;
+  late SignInControllerImpl _controller;
 
   late final TextEditingController _controllerName;
   late final TextEditingController _controllerLastName;
@@ -30,7 +30,7 @@ class _SignInPaheState extends State<SignInPage> {
   void initState() {
     super.initState();
 
-    _controller = SignInController();
+    _controller = SignInControllerImpl();
 
     _controllerName = TextEditingController();
     _controllerLastName = TextEditingController();

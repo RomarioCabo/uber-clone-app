@@ -2,11 +2,11 @@ import 'package:alert_dialog/alert_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:mobx/mobx.dart';
-import 'package:uber_clone/application/util/custombuttom.dart';
-import 'package:uber_clone/application/util/textfield.dart';
+import 'package:uber_clone/application/util/custom_buttom.dart';
+import 'package:uber_clone/application/util/text_field.dart';
+import 'package:uber_clone/domain/store/login/login_controller_impl.dart';
 
-import '../../domain/store/login/logincontroller.dart';
-import '../../infrastructure/helpers/requeststate.dart';
+import '../../infrastructure/helpers/request_state.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -16,7 +16,7 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  late LoginController _controller;
+  late LoginControllerImpl _controller;
 
   late final TextEditingController _controllerEmail;
   late final TextEditingController _controllerPassword;
@@ -28,7 +28,7 @@ class _LoginPageState extends State<LoginPage> {
   void initState() {
     super.initState();
 
-    _controller = LoginController();
+    _controller = LoginControllerImpl();
 
     _controllerEmail = TextEditingController();
     _controllerPassword = TextEditingController();
@@ -146,7 +146,7 @@ class _LoginPageState extends State<LoginPage> {
             color: Colors.transparent,
             child: InkWell(
               onTap: () {
-                Navigator.pushNamed(context, "/create_account");
+                Navigator.pushNamed(context, "/create-account");
               },
               child: Container(
                 padding: const EdgeInsets.all(8),
