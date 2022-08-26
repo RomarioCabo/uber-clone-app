@@ -33,9 +33,15 @@ class _PanelPassengerPageState extends State<PanelPassengerPage> {
   void initState() {
     super.initState();
 
+    double pixelRatio = 0.0;
+
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      pixelRatio = MediaQuery.of(context).devicePixelRatio;
+    });
+
     _controller = PanelPassengerControllerImpl();
-    _controller.retriveCurrentPosition();
-    _controller.retrieveLastKnownPosition();
+    _controller.retriveCurrentPosition(pixelRatio);
+    _controller.retrieveLastKnownPosition(pixelRatio);
   }
 
   @override
@@ -65,7 +71,8 @@ class _PanelPassengerPageState extends State<PanelPassengerPage> {
                 mapType: MapType.normal,
                 initialCameraPosition: _controller.positionCamera,
                 onMapCreated: _controller.onMapCreated,
-                myLocationEnabled: true,
+                //myLocationEnabled: true,
+                markers: _controller.markers,
                 myLocationButtonEnabled: false,
               ),
               _buildTextField(

@@ -25,10 +25,27 @@ mixin _$PanelPassengerControllerImpl on PanelPassengerControllerBase, Store {
     });
   }
 
+  late final _$markersAtom =
+      Atom(name: 'PanelPassengerControllerBase.markers', context: context);
+
+  @override
+  Set<Marker> get markers {
+    _$markersAtom.reportRead();
+    return super.markers;
+  }
+
+  @override
+  set markers(Set<Marker> value) {
+    _$markersAtom.reportWrite(value, super.markers, () {
+      super.markers = value;
+    });
+  }
+
   @override
   String toString() {
     return '''
-positionCamera: ${positionCamera}
+positionCamera: ${positionCamera},
+markers: ${markers}
     ''';
   }
 }
