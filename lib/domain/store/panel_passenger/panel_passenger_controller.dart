@@ -5,5 +5,7 @@ abstract class PanelPassengerController {
 
   retrieveLastKnownPosition(double pixelRatio);
 
-  retriveCurrentPosition(double pixelRatio);
+  retrieveCurrentPosition(double pixelRatio);
+
+  callUber(String destinationAddress);
 }

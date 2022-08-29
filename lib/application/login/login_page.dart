@@ -34,7 +34,8 @@ class _LoginPageState extends State<LoginPage> {
     _controllerPassword = TextEditingController();
 
     _controllerEmail.text = "romariocabo2012@gmail.com";
-    _controllerPassword.text = "123456";
+    // _controllerPassword.text = "123456";
+    _controllerPassword.text = "1234";
 
     /// Reações
     _disposers.add(

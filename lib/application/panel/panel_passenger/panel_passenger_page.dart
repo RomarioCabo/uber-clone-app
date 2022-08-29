@@ -1,10 +1,14 @@
 import 'dart:io';
 
+import 'package:alert_dialog/alert_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:mobx/mobx.dart';
 import 'package:uber_clone/domain/store/panel_passenger/panel_passenger_controller_impl.dart';
 
+import '../../../infrastructure/helpers/request_state.dart';
+import '../../dialogs/custom_dialog.dart';
 import '../../util/custom_buttom.dart';
 
 class PanelPassengerPage extends StatefulWidget {
@@ -29,6 +33,12 @@ class _PanelPassengerPageState extends State<PanelPassengerPage> {
     }
   }
 
+  /// Reactions
+  final List<ReactionDisposer> _disposers = [];
+
+  late final TextEditingController _controllerMyLocation;
+  late final TextEditingController _controllerDestination;
+
   @override
   void initState() {
     super.initState();
@@ -40,8 +50,49 @@ class _PanelPassengerPageState extends State<PanelPassengerPage> {
     });
 
     _controller = PanelPassengerControllerImpl();
-    _controller.retriveCurrentPosition(pixelRatio);
+    _controller.retrieveCurrentPosition(pixelRatio);
     _controller.retrieveLastKnownPosition(pixelRatio);
+
+    _controllerMyLocation = TextEditingController();
+
+    _controllerDestination = TextEditingController();
+    _controllerDestination.text = "Rua Coronel Perdigão Sobrinho, 241";
+
+    /// Reações
+    _disposers.add(
+      reaction(
+        (_) => _controller.stateCallUber,
+        _stateCallUber,
+      ),
+    );
+  }
+
+  @override
+  void dispose() {
+    for (var disposer in _disposers) {
+      disposer();
+    }
+    super.dispose();
+  }
+
+  void _stateCallUber(_) {
+    if (_controller.stateCallUber is Completed) {
+      showAlertDialog(
+        context: context,
+        title: 'Confirme o endereço',
+        content: _controller.confirmation,
+        function: () => null
+      );
+    }
+
+    if (_controller.stateCallUber is Error) {
+      alert(
+        context,
+        title: const Text('Atenção'),
+        content: Text((_controller.stateCallUber as Error).error!),
+        textOK: const Text('FECHAR'),
+      );
+    }
   }
 
   @override
@@ -74,8 +125,10 @@ class _PanelPassengerPageState extends State<PanelPassengerPage> {
                 //myLocationEnabled: true,
                 markers: _controller.markers,
                 myLocationButtonEnabled: false,
+                zoomControlsEnabled: false,
               ),
               _buildTextField(
+                textEditingController: _controllerMyLocation,
                 hintText: "Meu local",
                 icon: Icons.location_on,
                 color: Colors.green,
@@ -85,13 +138,14 @@ class _PanelPassengerPageState extends State<PanelPassengerPage> {
                 readOnly: true,
               ),
               _buildTextField(
+                textEditingController: _controllerDestination,
                 hintText: "Digite o destino",
                 icon: Icons.local_taxi,
                 color: Colors.grey,
                 top: 55,
                 left: 0,
                 right: 0,
-                readOnly: false,
+                readOnly: _controller.stateCallUber is Loading,
               ),
               Positioned(
                 right: 0,
@@ -104,9 +158,11 @@ class _PanelPassengerPageState extends State<PanelPassengerPage> {
                   child: CustomButtom(
                     text: "Chamar UBER",
                     color: 0xff1ebbd8,
-                    loading: false,
-                    onPressed: () {},
-                    enable: true,
+                    loading: _controller.stateCallUber is Loading,
+                    onPressed: () {
+                      _controller.callUber(_controllerDestination.text);
+                    },
+                    enable: _controller.stateCallUber is! Loading,
                   ),
                 ),
               )
@@ -118,6 +174,7 @@ class _PanelPassengerPageState extends State<PanelPassengerPage> {
   }
 
   Widget _buildTextField({
+    required TextEditingController textEditingController,
     required String? hintText,
     required IconData? icon,
     required MaterialColor? color,
@@ -142,6 +199,7 @@ class _PanelPassengerPageState extends State<PanelPassengerPage> {
             color: Colors.white,
           ),
           child: TextField(
+            controller: textEditingController,
             readOnly: readOnly!,
             decoration: InputDecoration(
               icon: Container(

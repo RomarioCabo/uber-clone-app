@@ -41,11 +41,62 @@ mixin _$PanelPassengerControllerImpl on PanelPassengerControllerBase, Store {
     });
   }
 
+  late final _$destinationAtom =
+      Atom(name: 'PanelPassengerControllerBase.destination', context: context);
+
+  @override
+  Destination get destination {
+    _$destinationAtom.reportRead();
+    return super.destination;
+  }
+
+  @override
+  set destination(Destination value) {
+    _$destinationAtom.reportWrite(value, super.destination, () {
+      super.destination = value;
+    });
+  }
+
+  late final _$stateCallUberAtom = Atom(
+      name: 'PanelPassengerControllerBase.stateCallUber', context: context);
+
+  @override
+  RequestState get stateCallUber {
+    _$stateCallUberAtom.reportRead();
+    return super.stateCallUber;
+  }
+
+  @override
+  set stateCallUber(RequestState value) {
+    _$stateCallUberAtom.reportWrite(value, super.stateCallUber, () {
+      super.stateCallUber = value;
+    });
+  }
+
+  late final _$confirmationAtom =
+      Atom(name: 'PanelPassengerControllerBase.confirmation', context: context);
+
+  @override
+  String get confirmation {
+    _$confirmationAtom.reportRead();
+    return super.confirmation;
+  }
+
+  @override
+  set confirmation(String value) {
+    _$confirmationAtom.reportWrite(value, super.confirmation, () {
+      super.confirmation = value;
+    });
+  }
+
   @override
   String toString() {
     return '''
 positionCamera: ${positionCamera},
-markers: ${markers}
+markers: ${markers},
+destination: ${destination},
+stateCallUber: ${stateCallUber},
+confirmation: ${confirmation}
     ''';
   }
 }
