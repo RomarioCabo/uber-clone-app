@@ -1,10 +1,14 @@
 import 'package:flutter/foundation.dart';
+import 'package:get_it/get_it.dart';
 import 'package:mobx/mobx.dart';
 
 import '../../../infrastructure/helpers/request_state.dart';
+import '../../../infrastructure/provider/shared_preferences/shared_preferences_manager.dart';
+import '../../../infrastructure/provider/shared_preferences/shared_preferences_provider_impl.dart';
 import '../../../infrastructure/provider/user/user_provider_impl.dart';
+import '../../provider/shared_preferences_provider.dart';
 import '../../user/authenticate_user_model.dart';
-import '../../user/user.dart';
+import '../../user/user_model.dart';
 import 'login_controller.dart';
 
 part 'login_controller_impl.g.dart';
@@ -20,6 +24,9 @@ abstract class LoginControllerBase with Store implements LoginController {
 
   final UserProviderImpl _provider = UserProviderImpl();
 
+  final SharedPreferencesProvider _sharedPreferencesProvider =
+      SharedPreferencesProviderImpl();
+
   @action
   @override
   Future<void> authenticate(String email, String password) async {
@@ -31,6 +38,8 @@ abstract class LoginControllerBase with Store implements LoginController {
         email: email,
         password: password,
       ));
+
+      _sharedPreferencesProvider.saveUser(user);
 
       stateAuthenticate = Completed();
     } catch (e) {

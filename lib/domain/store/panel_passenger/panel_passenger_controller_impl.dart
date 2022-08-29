@@ -12,6 +12,8 @@ import 'package:uber_clone/domain/destination/destination.dart';
 import 'package:uber_clone/domain/store/panel_passenger/panel_passenger_controller.dart';
 
 import '../../../infrastructure/helpers/request_state.dart';
+import '../../../infrastructure/provider/shared_preferences/shared_preferences_provider_impl.dart';
+import '../../provider/shared_preferences_provider.dart';
 
 part 'panel_passenger_controller_impl.g.dart';
 
@@ -38,6 +40,9 @@ abstract class PanelPassengerControllerBase
 
   @observable
   late String confirmation = "";
+
+  final SharedPreferencesProvider _sharedPreferencesProvider =
+      SharedPreferencesProviderImpl();
 
   @override
   onMapCreated(GoogleMapController controller) {
@@ -110,7 +115,8 @@ abstract class PanelPassengerControllerBase
         );
       }
 
-      confirmation = "\nCidade: ${destination.city}\nEstado: ${destination.state}"
+      confirmation =
+          "\nCidade: ${destination.city}\nEstado: ${destination.state}"
           "\nRua: ${destination.street}\nBairro: ${destination.neighborhood}"
           "\nCep: ${destination.postalCode}";
 

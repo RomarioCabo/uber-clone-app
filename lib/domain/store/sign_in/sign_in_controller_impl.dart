@@ -4,7 +4,7 @@ import 'package:uber_clone/domain/store/sign_in/sign_in_controller.dart';
 
 import '../../../infrastructure/helpers/request_state.dart';
 import '../../../infrastructure/provider/user/user_provider_impl.dart';
-import '../../user/user.dart';
+import '../../user/user_model.dart';
 
 part 'sign_in_controller_impl.g.dart';
 
