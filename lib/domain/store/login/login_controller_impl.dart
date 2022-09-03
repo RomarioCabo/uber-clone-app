@@ -1,9 +1,8 @@
 import 'package:flutter/foundation.dart';
-import 'package:get_it/get_it.dart';
 import 'package:mobx/mobx.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 import '../../../infrastructure/helpers/request_state.dart';
-import '../../../infrastructure/provider/shared_preferences/shared_preferences_manager.dart';
 import '../../../infrastructure/provider/shared_preferences/shared_preferences_provider_impl.dart';
 import '../../../infrastructure/provider/user/user_provider_impl.dart';
 import '../../provider/shared_preferences_provider.dart';
@@ -22,6 +21,8 @@ abstract class LoginControllerBase with Store implements LoginController {
   @observable
   UserModel user = UserModel();
 
+  bool _locationPermissionIsGranted = false;
+
   final UserProviderImpl _provider = UserProviderImpl();
 
   final SharedPreferencesProvider _sharedPreferencesProvider =
@@ -31,17 +32,26 @@ abstract class LoginControllerBase with Store implements LoginController {
   @override
   Future<void> authenticate(String email, String password) async {
     try {
-      stateAuthenticate = Loading();
-      await Future.delayed(const Duration(seconds: 1));
+      if (kDebugMode) {
+        print("locationPermissionIsGranted: $_locationPermissionIsGranted");
+      }
 
-      user = await _provider.authenticateUser(AuthenticateUserModel(
-        email: email,
-        password: password,
-      ));
+      if(_locationPermissionIsGranted) {
+        stateAuthenticate = Loading();
+        await Future.delayed(const Duration(seconds: 1));
 
-      _sharedPreferencesProvider.saveUser(user);
+        user = await _provider.authenticateUser(AuthenticateUserModel(
+          email: email,
+          password: password,
+        ));
 
-      stateAuthenticate = Completed();
+        _sharedPreferencesProvider.saveUser(user);
+
+        stateAuthenticate = Completed();
+      } else {
+        await Permission.location.request();
+        requestLocationPermission();
+      }
     } catch (e) {
       if (kDebugMode) {
         print(e);
@@ -49,6 +59,28 @@ abstract class LoginControllerBase with Store implements LoginController {
 
       stateAuthenticate = Error(
         error: e.toString(),
+      );
+    }
+  }
+
+  Future<void> requestLocationPermission() async {
+    var status = await Permission.location.status;
+
+    if (kDebugMode) {
+      print("requestLocationPermission => locationPermissionIsGranted: $status");
+    }
+
+    if (status.isGranted) {
+      _locationPermissionIsGranted = true;
+    }
+
+    if (status.isDenied) {
+      _locationPermissionIsGranted = false;
+    }
+
+    if (status.isPermanentlyDenied) {
+      stateAuthenticate = Error(
+        error: "Você dave liberar o acesso a sua loalização! No momento está permanentimente negeada!",
       );
     }
   }
