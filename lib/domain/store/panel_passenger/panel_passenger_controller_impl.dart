@@ -13,7 +13,10 @@ import 'package:uber_clone/domain/store/panel_passenger/panel_passenger_controll
 
 import '../../../infrastructure/helpers/request_state.dart';
 import '../../../infrastructure/provider/shared_preferences/shared_preferences_provider_impl.dart';
+import '../../../infrastructure/provider/taxi_shipping/taxi_shipping_provider_impl.dart';
 import '../../provider/shared_preferences_provider.dart';
+import '../../taxi_shipping/taxi_shipping_model.dart';
+import '../../user/user_model.dart';
 
 part 'panel_passenger_controller_impl.g.dart';
 
@@ -39,10 +42,15 @@ abstract class PanelPassengerControllerBase
   RequestState stateCallUber = Initial();
 
   @observable
+  RequestState stateRetrieveInformationDestination = Initial();
+
+  @observable
   late String confirmation = "";
 
   final SharedPreferencesProvider _sharedPreferencesProvider =
       SharedPreferencesProviderImpl();
+
+  final TaxiShippingProviderImpl _provider = TaxiShippingProviderImpl();
 
   @override
   onMapCreated(GoogleMapController controller) {
@@ -80,16 +88,16 @@ abstract class PanelPassengerControllerBase
   }
 
   @override
-  callUber(String destinationAddress) async {
+  retrieveInformationDestination(String destinationAddress) async {
     if (destinationAddress.isEmpty) {
-      stateCallUber = Error(
+      stateRetrieveInformationDestination = Error(
         error: "O campo destino não pode estar vazio.",
       );
 
       return;
     }
 
-    stateCallUber = Loading();
+    stateRetrieveInformationDestination = Loading();
 
     try {
       List<Location> locations = await locationFromAddress(destinationAddress);
@@ -119,6 +127,35 @@ abstract class PanelPassengerControllerBase
           "\nCidade: ${destination.city}\nEstado: ${destination.state}"
           "\nRua: ${destination.street}\nBairro: ${destination.neighborhood}"
           "\nCep: ${destination.postalCode}";
+
+      stateRetrieveInformationDestination = Completed();
+    } catch (e) {
+      if (kDebugMode) {
+        print(e);
+      }
+
+      stateRetrieveInformationDestination = Error(
+        error: e.toString(),
+      );
+    }
+  }
+
+  @action
+  @override
+  callUber() async {
+    try {
+      stateCallUber = Loading();
+      await Future.delayed(const Duration(seconds: 10));
+
+      UserModel userModel = _sharedPreferencesProvider.getUser();
+
+      await _provider.callUber(TaxiShippingModel(
+        id: null,
+        destination: destination,
+        driver: null,
+        passenger: userModel,
+        createdAt: null,
+      ));
 
       stateCallUber = Completed();
     } catch (e) {

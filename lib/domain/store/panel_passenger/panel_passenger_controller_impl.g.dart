@@ -73,6 +73,24 @@ mixin _$PanelPassengerControllerImpl on PanelPassengerControllerBase, Store {
     });
   }
 
+  late final _$stateRetrieveInformationDestinationAtom = Atom(
+      name: 'PanelPassengerControllerBase.stateRetrieveInformationDestination',
+      context: context);
+
+  @override
+  RequestState get stateRetrieveInformationDestination {
+    _$stateRetrieveInformationDestinationAtom.reportRead();
+    return super.stateRetrieveInformationDestination;
+  }
+
+  @override
+  set stateRetrieveInformationDestination(RequestState value) {
+    _$stateRetrieveInformationDestinationAtom
+        .reportWrite(value, super.stateRetrieveInformationDestination, () {
+      super.stateRetrieveInformationDestination = value;
+    });
+  }
+
   late final _$confirmationAtom =
       Atom(name: 'PanelPassengerControllerBase.confirmation', context: context);
 
@@ -89,6 +107,14 @@ mixin _$PanelPassengerControllerImpl on PanelPassengerControllerBase, Store {
     });
   }
 
+  late final _$callUberAsyncAction =
+      AsyncAction('PanelPassengerControllerBase.callUber', context: context);
+
+  @override
+  Future callUber() {
+    return _$callUberAsyncAction.run(() => super.callUber());
+  }
+
   @override
   String toString() {
     return '''
@@ -96,6 +122,7 @@ positionCamera: ${positionCamera},
 markers: ${markers},
 destination: ${destination},
 stateCallUber: ${stateCallUber},
+stateRetrieveInformationDestination: ${stateRetrieveInformationDestination},
 confirmation: ${confirmation}
     ''';
   }

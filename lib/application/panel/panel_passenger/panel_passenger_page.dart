@@ -61,8 +61,8 @@ class _PanelPassengerPageState extends State<PanelPassengerPage> {
     /// Reações
     _disposers.add(
       reaction(
-        (_) => _controller.stateCallUber,
-        _stateCallUber,
+        (_) => _controller.stateRetrieveInformationDestination,
+        _stateRetrieveInformationDestination,
       ),
     );
   }
@@ -75,21 +75,25 @@ class _PanelPassengerPageState extends State<PanelPassengerPage> {
     super.dispose();
   }
 
-  void _stateCallUber(_) {
-    if (_controller.stateCallUber is Completed) {
+  void _stateRetrieveInformationDestination(_) {
+    if (_controller.stateRetrieveInformationDestination is Completed) {
       showAlertDialog(
         context: context,
         title: 'Confirme o endereço',
         content: _controller.confirmation,
-        function: () => null
+        function: () {
+          Navigator.of(context).pop();
+          _controller.callUber();
+        },
       );
     }
 
-    if (_controller.stateCallUber is Error) {
+    if (_controller.stateRetrieveInformationDestination is Error) {
       alert(
         context,
         title: const Text('Atenção'),
-        content: Text((_controller.stateCallUber as Error).error!),
+        content: Text(
+            (_controller.stateRetrieveInformationDestination as Error).error!),
         textOK: const Text('FECHAR'),
       );
     }
@@ -145,7 +149,7 @@ class _PanelPassengerPageState extends State<PanelPassengerPage> {
                 top: 55,
                 left: 0,
                 right: 0,
-                readOnly: _controller.stateCallUber is Loading,
+                readOnly: _enable(),
               ),
               Positioned(
                 right: 0,
@@ -158,11 +162,12 @@ class _PanelPassengerPageState extends State<PanelPassengerPage> {
                   child: CustomButtom(
                     text: "Chamar UBER",
                     color: 0xff1ebbd8,
-                    loading: _controller.stateCallUber is Loading,
+                    loading: _enable(),
                     onPressed: () {
-                      _controller.callUber(_controllerDestination.text);
+                      _controller.retrieveInformationDestination(
+                          _controllerDestination.text);
                     },
-                    enable: _controller.stateCallUber is! Loading,
+                    enable: _buttonEnable(),
                   ),
                 ),
               )
@@ -171,6 +176,16 @@ class _PanelPassengerPageState extends State<PanelPassengerPage> {
         },
       ),
     );
+  }
+
+  bool _enable() {
+    return _controller.stateCallUber is Loading ||
+        _controller.stateRetrieveInformationDestination is Loading;
+  }
+
+  bool _buttonEnable() {
+    return _controller.stateCallUber is! Loading &&
+        _controller.stateRetrieveInformationDestination is! Loading;
   }
 
   Widget _buildTextField({

@@ -2,7 +2,6 @@ import 'package:alert_dialog/alert_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:mobx/mobx.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:uber_clone/application/util/custom_buttom.dart';
 import 'package:uber_clone/application/util/text_field.dart';
 import 'package:uber_clone/domain/store/login/login_controller_impl.dart';

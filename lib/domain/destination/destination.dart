@@ -48,6 +48,19 @@ class Destination {
         : null;
   }
 
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['street'] = street;
+    data['number'] = number;
+    data['state'] = state;
+    data['city'] = city;
+    data['neighborhood'] = neighborhood;
+    data['postalCode'] = postalCode;
+    data['latitude'] = latitude;
+    data['longitude'] = longitude;
+    return data;
+  }
+
   String model2Json() {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['street'] = street;
