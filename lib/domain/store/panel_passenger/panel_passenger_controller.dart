@@ -1,6 +1,8 @@
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 abstract class PanelPassengerController {
+  getRouteAwaitingDriverAcceptance();
+
   onMapCreated(GoogleMapController controller);
 
   retrieveLastKnownPosition(double pixelRatio);
@@ -10,4 +12,6 @@ abstract class PanelPassengerController {
   retrieveInformationDestination(String destinationAddress);
 
   callUber();
+
+  cancelUber();
 }

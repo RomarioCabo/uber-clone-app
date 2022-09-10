@@ -2,7 +2,7 @@ import 'package:alert_dialog/alert_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:mobx/mobx.dart';
-import 'package:uber_clone/application/util/custom_buttom.dart';
+import 'package:uber_clone/application/util/custom_button.dart';
 import 'package:uber_clone/application/util/text_field.dart';
 import 'package:uber_clone/domain/store/login/login_controller_impl.dart';
 
@@ -129,9 +129,9 @@ class _LoginPageState extends State<LoginPage> {
           keyboardType: TextInputType.emailAddress,
           enabled: _controller.stateAuthenticate is Initial,
         ),
-        CustomButtom(
+        CustomButton(
           text: "Entrar",
-          color: 0xff1ebbd8,
+          color: 0xff37474f,
           loading: _controller.stateAuthenticate is Loading,
           onPressed: () {
             if (_controllerEmail.text.trim().isNotEmpty &&

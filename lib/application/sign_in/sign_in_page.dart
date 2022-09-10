@@ -5,7 +5,7 @@ import 'package:mobx/mobx.dart';
 import 'package:uber_clone/domain/store/sign_in/sign_in_controller_impl.dart';
 
 import '../../infrastructure/helpers/request_state.dart';
-import '../util/custom_buttom.dart';
+import '../util/custom_button.dart';
 import '../util/text_field.dart';
 
 class SignInPage extends StatefulWidget {
@@ -151,7 +151,7 @@ class _SignInPaheState extends State<SignInPage> {
             ],
           ),
         ),
-        CustomButtom(
+        CustomButton(
           text: "Ragistar-se",
           color: 0xff1ebbd8,
           loading: _controller.stateSaveUser is Loading,

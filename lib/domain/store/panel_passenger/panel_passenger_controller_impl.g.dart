@@ -73,6 +73,22 @@ mixin _$PanelPassengerControllerImpl on PanelPassengerControllerBase, Store {
     });
   }
 
+  late final _$stateCancelUberAtom = Atom(
+      name: 'PanelPassengerControllerBase.stateCancelUber', context: context);
+
+  @override
+  RequestState get stateCancelUber {
+    _$stateCancelUberAtom.reportRead();
+    return super.stateCancelUber;
+  }
+
+  @override
+  set stateCancelUber(RequestState value) {
+    _$stateCancelUberAtom.reportWrite(value, super.stateCancelUber, () {
+      super.stateCancelUber = value;
+    });
+  }
+
   late final _$stateRetrieveInformationDestinationAtom = Atom(
       name: 'PanelPassengerControllerBase.stateRetrieveInformationDestination',
       context: context);
@@ -88,6 +104,25 @@ mixin _$PanelPassengerControllerImpl on PanelPassengerControllerBase, Store {
     _$stateRetrieveInformationDestinationAtom
         .reportWrite(value, super.stateRetrieveInformationDestination, () {
       super.stateRetrieveInformationDestination = value;
+    });
+  }
+
+  late final _$stateGetRouteAwaitingDriverAcceptanceAtom = Atom(
+      name:
+          'PanelPassengerControllerBase.stateGetRouteAwaitingDriverAcceptance',
+      context: context);
+
+  @override
+  RequestState get stateGetRouteAwaitingDriverAcceptance {
+    _$stateGetRouteAwaitingDriverAcceptanceAtom.reportRead();
+    return super.stateGetRouteAwaitingDriverAcceptance;
+  }
+
+  @override
+  set stateGetRouteAwaitingDriverAcceptance(RequestState value) {
+    _$stateGetRouteAwaitingDriverAcceptanceAtom
+        .reportWrite(value, super.stateGetRouteAwaitingDriverAcceptance, () {
+      super.stateGetRouteAwaitingDriverAcceptance = value;
     });
   }
 
@@ -107,12 +142,48 @@ mixin _$PanelPassengerControllerImpl on PanelPassengerControllerBase, Store {
     });
   }
 
+  late final _$thereIsAnUberRequestAtom = Atom(
+      name: 'PanelPassengerControllerBase.thereIsAnUberRequest',
+      context: context);
+
+  @override
+  bool get thereIsAnUberRequest {
+    _$thereIsAnUberRequestAtom.reportRead();
+    return super.thereIsAnUberRequest;
+  }
+
+  @override
+  set thereIsAnUberRequest(bool value) {
+    _$thereIsAnUberRequestAtom.reportWrite(value, super.thereIsAnUberRequest,
+        () {
+      super.thereIsAnUberRequest = value;
+    });
+  }
+
+  late final _$getRouteAwaitingDriverAcceptanceAsyncAction = AsyncAction(
+      'PanelPassengerControllerBase.getRouteAwaitingDriverAcceptance',
+      context: context);
+
+  @override
+  Future getRouteAwaitingDriverAcceptance() {
+    return _$getRouteAwaitingDriverAcceptanceAsyncAction
+        .run(() => super.getRouteAwaitingDriverAcceptance());
+  }
+
   late final _$callUberAsyncAction =
       AsyncAction('PanelPassengerControllerBase.callUber', context: context);
 
   @override
   Future callUber() {
     return _$callUberAsyncAction.run(() => super.callUber());
+  }
+
+  late final _$cancelUberAsyncAction =
+      AsyncAction('PanelPassengerControllerBase.cancelUber', context: context);
+
+  @override
+  Future cancelUber() {
+    return _$cancelUberAsyncAction.run(() => super.cancelUber());
   }
 
   @override
@@ -122,8 +193,11 @@ positionCamera: ${positionCamera},
 markers: ${markers},
 destination: ${destination},
 stateCallUber: ${stateCallUber},
+stateCancelUber: ${stateCancelUber},
 stateRetrieveInformationDestination: ${stateRetrieveInformationDestination},
-confirmation: ${confirmation}
+stateGetRouteAwaitingDriverAcceptance: ${stateGetRouteAwaitingDriverAcceptance},
+confirmation: ${confirmation},
+thereIsAnUberRequest: ${thereIsAnUberRequest}
     ''';
   }
 }

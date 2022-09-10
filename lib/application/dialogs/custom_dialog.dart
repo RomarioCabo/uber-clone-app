@@ -1,34 +1,20 @@
 import 'package:flutter/material.dart';
 
-showAlertDialog({
-  required BuildContext context,
-  required String title,
-  required String content,
-  required Function() function,
-}) {
-  Widget closeButton = TextButton(
-    child: const Text("FECHAR"),
-    onPressed: () {
-     Navigator.pop(context);
-    },
-  );
-  Widget cancelButton = TextButton(
-    onPressed: function,
-    child: const Text("CONFIRMAR"),
-  );
-  AlertDialog alert = AlertDialog(
-    title: Text(title),
-    content: Text(content),
-    actions: [
-      closeButton,
-      cancelButton,
-    ],
-  );
-  showDialog(
-    barrierDismissible: false,
-    context: context,
-    builder: (BuildContext context) {
-      return alert;
-    },
-  );
+class CustomDialog extends StatefulWidget {
+  final String text;
+
+  const CustomDialog({
+    Key? key,
+    required this.text,
+  }) : super(key: key);
+
+  @override
+  State<CustomDialog> createState() => _CustomDialogState();
+}
+
+class _CustomDialogState extends State<CustomDialog> {
+  @override
+  Widget build(BuildContext context) {
+    return Text(widget.text);
+  }
 }

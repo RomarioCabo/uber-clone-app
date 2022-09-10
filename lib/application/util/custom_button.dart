@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
-class CustomButtom extends StatefulWidget {
+class CustomButton extends StatefulWidget {
   final String text;
   final int color;
   final bool loading;
   final Function() onPressed;
   final bool enable;
 
-  const CustomButtom({
+  const CustomButton({
     Key? key,
     required this.text,
     required this.color,
@@ -18,10 +18,10 @@ class CustomButtom extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<CustomButtom> createState() => _CustomButtomState();
+  State<CustomButton> createState() => _CustomButtonState();
 }
 
-class _CustomButtomState extends State<CustomButtom> {
+class _CustomButtonState extends State<CustomButton> {
   @override
   Widget build(BuildContext context) {
     return Padding(

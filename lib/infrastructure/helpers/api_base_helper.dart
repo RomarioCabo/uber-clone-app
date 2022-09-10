@@ -19,11 +19,10 @@ class ApiBaseHelper {
   }
 
   Future<dynamic> get(
-      {required String url, String? pathVariable, String? queryParams}) async {
+      {required String url, String? queryParams}) async {
     return await _request(
       httpMethod: "GET",
       url: url,
-      pathVariable: pathVariable,
       queryParams: queryParams,
     );
   }
@@ -33,7 +32,6 @@ class ApiBaseHelper {
     required String url,
     String? body,
     String? queryParams,
-    String? pathVariable,
   }) async {
     dynamic responseJson;
 

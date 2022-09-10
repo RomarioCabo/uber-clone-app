@@ -3,13 +3,14 @@ import 'dart:io';
 import 'package:alert_dialog/alert_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:mobx/mobx.dart';
 import 'package:uber_clone/domain/store/panel_passenger/panel_passenger_controller_impl.dart';
 
 import '../../../infrastructure/helpers/request_state.dart';
-import '../../dialogs/custom_dialog.dart';
-import '../../util/custom_buttom.dart';
+import '../../dialogs/show_alert_dialog.dart';
+import '../../util/custom_button.dart';
 
 class PanelPassengerPage extends StatefulWidget {
   const PanelPassengerPage({Key? key}) : super(key: key);
@@ -43,26 +44,32 @@ class _PanelPassengerPageState extends State<PanelPassengerPage> {
   void initState() {
     super.initState();
 
-    double pixelRatio = 0.0;
-
-    WidgetsBinding.instance.addPostFrameCallback((_) async {
-      pixelRatio = MediaQuery.of(context).devicePixelRatio;
-    });
-
     _controller = PanelPassengerControllerImpl();
-    _controller.retrieveCurrentPosition(pixelRatio);
-    _controller.retrieveLastKnownPosition(pixelRatio);
-
-    _controllerMyLocation = TextEditingController();
-
-    _controllerDestination = TextEditingController();
-    _controllerDestination.text = "Rua Coronel Perdigão Sobrinho, 241";
+    _controller.getRouteAwaitingDriverAcceptance();
 
     /// Reações
     _disposers.add(
       reaction(
+        (_) => _controller.stateGetRouteAwaitingDriverAcceptance,
+        _getRouteAwaitingDriverAcceptance,
+      ),
+    );
+    _disposers.add(
+      reaction(
         (_) => _controller.stateRetrieveInformationDestination,
         _stateRetrieveInformationDestination,
+      ),
+    );
+    _disposers.add(
+      reaction(
+        (_) => _controller.stateCallUber,
+        _callUber,
+      ),
+    );
+    _disposers.add(
+      reaction(
+        (_) => _controller.stateCancelUber,
+        _cancelUber,
       ),
     );
   }
@@ -99,13 +106,57 @@ class _PanelPassengerPageState extends State<PanelPassengerPage> {
     }
   }
 
+  void _callUber(_) {
+    if (_controller.stateCallUber is Loading) {
+      showLoadingDialog(
+        context: context,
+        title: 'Enviando...',
+      );
+    }
+
+    if (_controller.stateCallUber is Completed) {
+      Navigator.of(context).pop();
+    }
+  }
+
+  void _cancelUber(_) {
+    if (_controller.stateCancelUber is Loading) {
+      showLoadingDialog(
+        context: context,
+        title: 'Cancelando...',
+      );
+    }
+
+    if (_controller.stateCancelUber is Completed) {
+      Navigator.of(context).pop();
+    }
+  }
+
+  void _getRouteAwaitingDriverAcceptance(_) {
+    if (_controller.stateGetRouteAwaitingDriverAcceptance is Completed) {
+      double pixelRatio = 0.0;
+
+      WidgetsBinding.instance.addPostFrameCallback((_) async {
+        pixelRatio = MediaQuery.of(context).devicePixelRatio;
+      });
+
+      _controller.retrieveCurrentPosition(pixelRatio);
+      _controller.retrieveLastKnownPosition(pixelRatio);
+
+      _controllerMyLocation = TextEditingController();
+
+      _controllerDestination = TextEditingController();
+      _controllerDestination.text = "Rua Hermínio de Oliveira Brito, 905";
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Passageiro"),
         actions: [
-          PopupMenuButton<String>(
+          PopupMenuButton(
             onSelected: _choiceMenuItem,
             itemBuilder: (context) {
               return itensMenu.map((String item) {
@@ -120,18 +171,42 @@ class _PanelPassengerPageState extends State<PanelPassengerPage> {
       ),
       body: Observer(
         builder: (_) {
-          return Stack(
-            children: [
-              GoogleMap(
-                mapType: MapType.normal,
-                initialCameraPosition: _controller.positionCamera,
-                onMapCreated: _controller.onMapCreated,
-                //myLocationEnabled: true,
-                markers: _controller.markers,
-                myLocationButtonEnabled: false,
-                zoomControlsEnabled: false,
-              ),
-              _buildTextField(
+          return _controller.stateGetRouteAwaitingDriverAcceptance is Loading
+              ? _buildLoading()
+              : _buildMapPassenger();
+        },
+      ),
+    );
+  }
+
+  Widget _buildLoading() {
+    return Center(
+      child: Container(
+        margin: const EdgeInsets.only(right: 12),
+        child: const SpinKitDualRing(
+          color: Color(0xff37474f),
+          size: 40,
+          lineWidth: 3,
+        ),
+      ),
+    );
+  }
+
+  Widget _buildMapPassenger() {
+    return Stack(
+      children: [
+        GoogleMap(
+          mapType: MapType.normal,
+          initialCameraPosition: _controller.positionCamera,
+          onMapCreated: _controller.onMapCreated,
+          //myLocationEnabled: true,
+          markers: _controller.markers,
+          myLocationButtonEnabled: false,
+          zoomControlsEnabled: false,
+        ),
+        _controller.thereIsAnUberRequest
+            ? Container()
+            : _buildTextField(
                 textEditingController: _controllerMyLocation,
                 hintText: "Meu local",
                 icon: Icons.location_on,
@@ -141,7 +216,9 @@ class _PanelPassengerPageState extends State<PanelPassengerPage> {
                 right: 0,
                 readOnly: true,
               ),
-              _buildTextField(
+        _controller.thereIsAnUberRequest
+            ? Container()
+            : _buildTextField(
                 textEditingController: _controllerDestination,
                 hintText: "Digite o destino",
                 icon: Icons.local_taxi,
@@ -149,43 +226,43 @@ class _PanelPassengerPageState extends State<PanelPassengerPage> {
                 top: 55,
                 left: 0,
                 right: 0,
-                readOnly: _enable(),
+                readOnly:
+                    _controller.stateRetrieveInformationDestination is Loading,
               ),
-              Positioned(
-                right: 0,
-                left: 0,
-                bottom: 0,
-                child: Padding(
-                  padding: Platform.isIOS
-                      ? const EdgeInsets.fromLTRB(20, 10, 20, 25)
-                      : const EdgeInsets.all(10),
-                  child: CustomButtom(
-                    text: "Chamar UBER",
-                    color: 0xff1ebbd8,
-                    loading: _enable(),
-                    onPressed: () {
-                      _controller.retrieveInformationDestination(
-                          _controllerDestination.text);
-                    },
-                    enable: _buttonEnable(),
-                  ),
-                ),
-              )
-            ],
-          );
-        },
-      ),
+        Positioned(
+          right: 0,
+          left: 0,
+          bottom: 0,
+          child: Padding(
+            padding: Platform.isIOS
+                ? const EdgeInsets.fromLTRB(20, 10, 20, 25)
+                : const EdgeInsets.all(10),
+            child: CustomButton(
+              text: _controller.thereIsAnUberRequest
+                  ? "Cancelar UBER"
+                  : "Chamar UBER",
+              color: _controller.thereIsAnUberRequest ? 0xFFD32F2F : 0xff37474f,
+              loading:
+                  _controller.stateRetrieveInformationDestination is Loading,
+              onPressed: () {
+                _onPressed();
+              },
+              enable:
+                  _controller.stateRetrieveInformationDestination is! Loading,
+            ),
+          ),
+        )
+      ],
     );
   }
 
-  bool _enable() {
-    return _controller.stateCallUber is Loading ||
-        _controller.stateRetrieveInformationDestination is Loading;
-  }
+  _onPressed() {
+    if (_controller.thereIsAnUberRequest) {
+      return _controller.cancelUber();
+    }
 
-  bool _buttonEnable() {
-    return _controller.stateCallUber is! Loading &&
-        _controller.stateRetrieveInformationDestination is! Loading;
+    return _controller
+        .retrieveInformationDestination(_controllerDestination.text);
   }
 
   Widget _buildTextField({
