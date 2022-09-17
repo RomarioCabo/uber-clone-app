@@ -22,4 +22,14 @@ class TaxiShippingManager {
 
     return TaxiShippingModel.fromJson(response);
   }
+
+  Future<List<TaxiShippingModel?>> getAllUberEligibleRoutes() async {
+    final response = await _helper.get(
+      url: "$baseUrl/get_all_uber_eligible_routes",
+    );
+
+    return List<TaxiShippingModel>.from(
+      response.map((item) => TaxiShippingModel.fromJson(item)),
+    );
+  }
 }

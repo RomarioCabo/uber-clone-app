@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:uber_clone/application/panel/panel_driver/panel_driver_page.dart';
 import 'package:uber_clone/application/panel/panel_passenger/panel_passenger_page.dart';
+import 'package:uber_clone/application/panel/routes_driver/routes_uber_page.dart';
 import 'package:uber_clone/application/sign_in/sign_in_page.dart';
 
 import 'login/login_page.dart';
@@ -16,6 +17,8 @@ class Routes {
         return MaterialPageRoute(builder: (_) => const PanelPassengerPage());
       case "/panel-driver":
         return MaterialPageRoute(builder: (_) => const PanelDriverPage());
+      case "/routes-uber":
+        return MaterialPageRoute(builder: (_) => const RoutesUberPage());
       default:
         _errorRoute();
     }

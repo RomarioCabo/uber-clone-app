@@ -33,7 +33,9 @@ class _LoginPageState extends State<LoginPage> {
     _controllerEmail = TextEditingController();
     _controllerPassword = TextEditingController();
 
-    _controllerEmail.text = "romariocabo2012@gmail.com";
+    _controllerEmail.text = "romariocabo@gmail.com";
+    // _controllerEmail.text = "gerusatargino@gmail.com";
+    // _controllerEmail.text = "romariocabo2012@gmail.com";
     // _controllerPassword.text = "123456";
     _controllerPassword.text = "1234";
 
@@ -65,7 +67,7 @@ class _LoginPageState extends State<LoginPage> {
 
       if (_controller.user.typeUser == "DRIVER") {
         Navigator.pushNamedAndRemoveUntil(
-            context, "/panel-driver", (_) => false);
+            context, "/routes-uber", (_) => false);
       }
     }
 

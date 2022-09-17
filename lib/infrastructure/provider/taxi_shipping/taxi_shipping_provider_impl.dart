@@ -7,7 +7,13 @@ class TaxiShippingProviderImpl implements TaxiShippingProvider {
   final TaxiShippingManager _manager = TaxiShippingManager();
 
   @override
-  Future<TaxiShippingModel> callUber(TaxiShippingModel taxiShippingModel) {
-    return _manager.callUber(taxiShippingModel);
+  Future<TaxiShippingModel> callUber(
+      TaxiShippingModel taxiShippingModel) async {
+    return await _manager.callUber(taxiShippingModel);
+  }
+
+  @override
+  Future<List<TaxiShippingModel?>> getAllUberEligibleRoutes() async {
+    return await _manager.getAllUberEligibleRoutes();
   }
 }

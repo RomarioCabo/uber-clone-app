@@ -20,7 +20,7 @@ class TaxiShippingModel {
 
   TaxiShippingModel.fromJson(Map<String, dynamic> json) {
     id = json.containsKey('id') && json['id'] != null ? json['id'] : null;
-    destination = json.containsKey('name') && json['name'] != null
+    destination = json.containsKey('destination') && json['destination'] != null
         ? Destination.fromJson(json['destination'])
         : null;
     driver = json.containsKey('driver') && json['driver'] != null
