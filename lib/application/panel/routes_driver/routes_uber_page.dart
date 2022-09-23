@@ -94,7 +94,11 @@ class _RoutesUberPageState extends State<RoutesUberPage> {
     return RefreshIndicator(
       color: const Color(0xff37474f),
       onRefresh: _controller.reloadAllUberEligibleRoutes,
-      child: ListView.builder(
+      child: ListView.separated(
+        padding: const EdgeInsets.all(14.0),
+        separatorBuilder: (context, index) => Divider(
+          color: Colors.grey[400],
+        ),
         physics: const AlwaysScrollableScrollPhysics(),
         itemCount: _controller.eligibleRoutes.length,
         itemBuilder: (context, index) {
