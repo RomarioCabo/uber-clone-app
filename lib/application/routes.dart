@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:uber_clone/application/panel/panel_driver/panel_driver_page.dart';
-import 'package:uber_clone/application/panel/panel_passenger/panel_passenger_page.dart';
-import 'package:uber_clone/application/panel/routes_driver/routes_uber_page.dart';
+
 import 'package:uber_clone/application/sign_in/sign_in_page.dart';
 
-import '../domain/taxi_shipping/taxi_shipping_model.dart';
+import '../domain/argument/method_arguments.dart';
+import 'fragment/fragment_main.dart';
 import 'login/login_page.dart';
 
 class Routes {
@@ -20,16 +19,12 @@ class Routes {
         return MaterialPageRoute(builder: (_) => const LoginPage());
       case "/create-account":
         return MaterialPageRoute(builder: (_) => const SignInPage());
-      case "/panel-passenger":
-        return MaterialPageRoute(builder: (_) => const PanelPassengerPage());
-      case "/panel-driver":
+      case "/fragment-main":
         return MaterialPageRoute(
-          builder: (_) => PanelDriverPage(
-            requestRoute: arguments,
+          builder: (_) => FragmentMain(
+            arguments: arguments,
           ),
         );
-      case "/routes-uber":
-        return MaterialPageRoute(builder: (_) => const RoutesUberPage());
       default:
         _errorRoute();
     }
@@ -52,10 +47,9 @@ class Routes {
     );
   }
 
-  // método para retortar a ssinatura dos métodos corretos
   static dynamic _getArgument(RouteSettings settings) {
-    if (settings.arguments is TaxiShippingModel) {
-      return settings.arguments as TaxiShippingModel;
+    if (settings.arguments is MethodArguments) {
+      return settings.arguments as MethodArguments;
     }
   }
 }

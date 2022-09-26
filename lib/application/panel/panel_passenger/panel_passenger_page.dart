@@ -22,18 +22,6 @@ class PanelPassengerPage extends StatefulWidget {
 class _PanelPassengerPageState extends State<PanelPassengerPage> {
   late PanelPassengerControllerImpl _controller;
 
-  List<String> itensMenu = ["Configurações", "Deslogar"];
-
-  _choiceMenuItem(String choice) {
-    switch (choice) {
-      case "Deslogar":
-        Navigator.pushReplacementNamed(context, "/login");
-        break;
-      case "Configurações":
-        break;
-    }
-  }
-
   /// Reactions
   final List<ReactionDisposer> _disposers = [];
 
@@ -152,30 +140,12 @@ class _PanelPassengerPageState extends State<PanelPassengerPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text("Passageiro"),
-        actions: [
-          PopupMenuButton(
-            onSelected: _choiceMenuItem,
-            itemBuilder: (context) {
-              return itensMenu.map((String item) {
-                return PopupMenuItem<String>(
-                  value: item,
-                  child: Text(item),
-                );
-              }).toList();
-            },
-          )
-        ],
-      ),
-      body: Observer(
-        builder: (_) {
-          return _controller.stateGetRouteAwaitingDriverAcceptance is Loading
-              ? _buildLoading()
-              : _buildMapPassenger();
-        },
-      ),
+    return Observer(
+      builder: (_) {
+        return _controller.stateGetRouteAwaitingDriverAcceptance is Loading
+            ? _buildLoading()
+            : _buildMapPassenger();
+      },
     );
   }
 

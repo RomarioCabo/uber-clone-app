@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../../domain/argument/method_arguments.dart';
+import '../../../domain/argument/who_called.dart';
 import '../../../domain/taxi_shipping/taxi_shipping_model.dart';
 
 class ItemTileRoute extends StatefulWidget {
@@ -21,8 +23,12 @@ class _ItemTileRouteState extends State<ItemTileRoute> {
       onTap: () {
         Navigator.pushNamed(
           context,
-          "/panel-driver",
-          arguments: widget.route,
+          "/fragment-main",
+          arguments: MethodArguments(
+            title: "Motorista",
+            whoCalled: WhoCalled.panelDriver,
+            clazz: widget.route,
+          ),
         );
       },
       child: Column(

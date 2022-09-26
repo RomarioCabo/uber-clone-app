@@ -23,18 +23,6 @@ class PanelDriverPage extends StatefulWidget {
 class _PanelDriverPageState extends State<PanelDriverPage> {
   late PanelDriverControllerImpl _controller;
 
-  List<String> itemsMenu = ["Configurações", "Deslogar"];
-
-  _choiceMenuItem(String choice) {
-    switch (choice) {
-      case "Deslogar":
-        Navigator.pushReplacementNamed(context, "/login");
-        break;
-      case "Configurações":
-        break;
-    }
-  }
-
   @override
   void initState() {
     super.initState();
@@ -46,28 +34,10 @@ class _PanelDriverPageState extends State<PanelDriverPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text("Motorista"),
-        actions: [
-          PopupMenuButton<String>(
-            onSelected: _choiceMenuItem,
-            itemBuilder: (context) {
-              return itemsMenu.map((String item) {
-                return PopupMenuItem<String>(
-                  value: item,
-                  child: Text(item),
-                );
-              }).toList();
-            },
-          )
-        ],
-      ),
-      body: Observer(
-        builder: (_) {
-          return _buildMapPassenger();
-        },
-      ),
+    return Observer(
+      builder: (_) {
+        return _buildMapPassenger();
+      },
     );
   }
 

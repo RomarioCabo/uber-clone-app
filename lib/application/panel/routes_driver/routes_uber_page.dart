@@ -17,18 +17,6 @@ class RoutesUberPage extends StatefulWidget {
 class _RoutesUberPageState extends State<RoutesUberPage> {
   late RouteUberControllerImpl _controller;
 
-  List<String> itemsMenu = ["Configurações", "Deslogar"];
-
-  _choiceMenuItem(String choice) {
-    switch (choice) {
-      case "Deslogar":
-        Navigator.pushReplacementNamed(context, "/login");
-        break;
-      case "Configurações":
-        break;
-    }
-  }
-
   /// Reactions
   final List<ReactionDisposer> _disposers = [];
 
@@ -50,30 +38,12 @@ class _RoutesUberPageState extends State<RoutesUberPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text("Rotas"),
-        actions: [
-          PopupMenuButton(
-            onSelected: _choiceMenuItem,
-            itemBuilder: (context) {
-              return itemsMenu.map((String item) {
-                return PopupMenuItem<String>(
-                  value: item,
-                  child: Text(item),
-                );
-              }).toList();
-            },
-          )
-        ],
-      ),
-      body: Observer(
-        builder: (_) {
-          return _controller.requestStateGetAllUberEligibleRoutes is Loading
-              ? _buildLoading()
-              : _buildRoutesEligible();
-        },
-      ),
+    return Observer(
+      builder: (_) {
+        return _controller.requestStateGetAllUberEligibleRoutes is Loading
+            ? _buildLoading()
+            : _buildRoutesEligible();
+      },
     );
   }
 

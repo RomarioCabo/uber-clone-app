@@ -4,8 +4,10 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:mobx/mobx.dart';
 import 'package:uber_clone/application/util/custom_button.dart';
 import 'package:uber_clone/application/util/text_field.dart';
+import 'package:uber_clone/domain/argument/who_called.dart';
 import 'package:uber_clone/domain/store/login/login_controller_impl.dart';
 
+import '../../domain/argument/method_arguments.dart';
 import '../../infrastructure/helpers/request_state.dart';
 
 class LoginPage extends StatefulWidget {
@@ -33,8 +35,8 @@ class _LoginPageState extends State<LoginPage> {
     _controllerEmail = TextEditingController();
     _controllerPassword = TextEditingController();
 
-    //_controllerEmail.text = "romario_motorista@gmail.com";
-    //_controllerPassword.text = "1234";
+    _controllerEmail.text = "romario_motorista@gmail.com";
+    _controllerPassword.text = "1234";
 
     //_controllerEmail.text = "romario_passageiro@gmail.com";
     //_controllerPassword.text = "1234";
@@ -62,12 +64,26 @@ class _LoginPageState extends State<LoginPage> {
     if (_controller.stateAuthenticate is Completed) {
       if (_controller.user.typeUser == "PASSENGER") {
         Navigator.pushNamedAndRemoveUntil(
-            context, "/panel-passenger", (_) => false);
+          context,
+          "/fragment-main",
+          (_) => false,
+          arguments: MethodArguments(
+            title: "Passageiro",
+            whoCalled: WhoCalled.panelPassenger,
+          ),
+        );
       }
 
       if (_controller.user.typeUser == "DRIVER") {
         Navigator.pushNamedAndRemoveUntil(
-            context, "/routes-uber", (_) => false);
+          context,
+          "/fragment-main",
+          (_) => false,
+          arguments: MethodArguments(
+            title: "Rotas Disponíveis",
+            whoCalled: WhoCalled.routesUber,
+          ),
+        );
       }
     }
 
