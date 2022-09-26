@@ -8,7 +8,8 @@ import '../../util/strings.dart';
 class UserManager {
   final ApiBaseHelper _helper = ApiBaseHelper();
 
-  Future<UserModel> authenticateUser(AuthenticateUserModel credentials) async {
+  Future<UserModel> authenticateUser(
+      {required AuthenticateUserModel credentials}) async {
     String json = credentials.model2Json();
 
     if (kDebugMode) {
@@ -23,7 +24,7 @@ class UserManager {
     return UserModel.fromJson(response);
   }
 
-  Future<UserModel> saveUser(UserModel userModel) async {
+  Future<UserModel> saveUser({required UserModel userModel}) async {
     String json = userModel.model2Json();
 
     if (kDebugMode) {

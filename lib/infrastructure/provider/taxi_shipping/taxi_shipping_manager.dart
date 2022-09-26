@@ -8,7 +8,7 @@ class TaxiShippingManager {
   final ApiBaseHelper _helper = ApiBaseHelper();
 
   Future<TaxiShippingModel> callUber(
-      TaxiShippingModel taxiShippingModel) async {
+      {required TaxiShippingModel taxiShippingModel}) async {
     String json = taxiShippingModel.model2Json();
 
     if (kDebugMode) {

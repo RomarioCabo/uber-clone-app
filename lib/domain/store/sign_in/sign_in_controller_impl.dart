@@ -24,25 +24,36 @@ abstract class SignInControllerBase with Store implements SignInController {
 
   @action
   @override
-  Future<void> saveUser(
-    String name,
-    String lastName,
-    String email,
-    String password,
-    bool isPassenger,
-  ) async {
+  Future<void> saveUser({
+    required String name,
+    required String lastName,
+    required String email,
+    required String password,
+    required bool isPassenger,
+  }) async {
     try {
-      stateSaveUser = Loading();
-      await Future.delayed(const Duration(seconds: 1));
-
-      user = await _provider.saveUser(UserModel(
-        id: null,
+      if (_validateFields(
         name: name,
         lastName: lastName,
         email: email,
         password: password,
-        typeUser: _buildTypeUser(isPassenger),
-      ));
+      )) {
+        return;
+      }
+
+      stateSaveUser = Loading();
+      await Future.delayed(const Duration(seconds: 1));
+
+      user = await _provider.saveUser(
+        userModel: UserModel(
+          id: null,
+          name: name,
+          lastName: lastName,
+          email: email,
+          password: password,
+          typeUser: _buildTypeUser(isDriver: isPassenger),
+        ),
+      );
 
       stateSaveUser = Completed();
     } catch (e) {
@@ -56,11 +67,60 @@ abstract class SignInControllerBase with Store implements SignInController {
     }
   }
 
-  String _buildTypeUser(bool isDriver) {
+  String _buildTypeUser({required bool isDriver}) {
     if (isDriver) {
       return "DRIVER";
     }
 
     return "PASSENGER";
+  }
+
+  bool _validateFields({
+    required String name,
+    required String lastName,
+    required String email,
+    required String password,
+  }) {
+    if (name.isEmpty && lastName.isEmpty && email.isEmpty && password.isEmpty) {
+      stateSaveUser = Error(
+        error: "Preecha os campos!",
+      );
+
+      return false;
+    }
+
+    if (name.isEmpty) {
+      stateSaveUser = Error(
+        error: "Preecha o campo nome.",
+      );
+
+      return false;
+    }
+
+    if (lastName.isEmpty) {
+      stateSaveUser = Error(
+        error: "Preecha o campo sobrenome.",
+      );
+
+      return false;
+    }
+
+    if (email.isEmpty) {
+      stateSaveUser = Error(
+        error: "Preecha o campo email.",
+      );
+
+      return false;
+    }
+
+    if (password.isEmpty) {
+      stateSaveUser = Error(
+        error: "Preecha o campo senha.",
+      );
+
+      return false;
+    }
+
+    return false;
   }
 }

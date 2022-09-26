@@ -8,13 +8,15 @@ class TaxiShippingHistoryProviderImpl implements TaxiShippingHistoryProvider {
 
   @override
   Future<TaxiShippingHistoryModel?> getRouteAwaitingDriverAcceptance(
-      int idPassenger) async {
-    return await _manager.getRouteAwaitingDriverAcceptance(idPassenger);
+      {required int idPassenger}) async {
+    return await _manager.getRouteAwaitingDriverAcceptance(
+        idPassenger: idPassenger);
   }
 
   @override
   Future<TaxiShippingHistoryModel> cancelUber(
-      TaxiShippingHistoryModel taxiShippingHistoryModel) async {
-    return await _manager.cancelUber(taxiShippingHistoryModel);
+      {required TaxiShippingHistoryModel taxiShippingHistoryModel}) async {
+    return await _manager.cancelUber(
+        taxiShippingHistoryModel: taxiShippingHistoryModel);
   }
 }

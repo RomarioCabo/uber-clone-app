@@ -18,7 +18,7 @@ class SharedPreferencesManager {
     prefs = await SharedPreferences.getInstance();
   }
 
-  void saveUser(UserModel user) {
+  void saveUser({required UserModel user}) {
       prefs.setString("user_model", user.model2Json());
   }
 

@@ -2,11 +2,11 @@ import 'package:uber_clone/domain/user/authenticate_user_model.dart';
 import 'package:uber_clone/domain/user/user_model.dart';
 
 abstract class UserProvider {
-  Future<UserModel> authenticateUser(
-    AuthenticateUserModel credentials,
-  );
+  Future<UserModel> authenticateUser({
+    required AuthenticateUserModel credentials,
+  });
 
-  Future<UserModel> saveUser(
-    UserModel userModel,
-  );
+  Future<UserModel> saveUser({
+    required UserModel userModel,
+  });
 }

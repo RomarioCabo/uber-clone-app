@@ -8,8 +8,8 @@ class SharedPreferencesProviderImpl implements SharedPreferencesProvider {
       SharedPreferencesManager();
 
   @override
-  saveUser(UserModel user) {
-    sharedPreferencesManager.saveUser(user);
+  saveUser({required UserModel user}) {
+    sharedPreferencesManager.saveUser(user: user);
   }
 
   @override

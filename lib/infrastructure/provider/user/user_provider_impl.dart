@@ -9,12 +9,13 @@ class UserProviderImpl implements UserProvider {
   final UserManager _manager = UserManager();
 
   @override
-  Future<UserModel> authenticateUser(AuthenticateUserModel credentials) async {
-    return await _manager.authenticateUser(credentials);
+  Future<UserModel> authenticateUser(
+      {required AuthenticateUserModel credentials}) async {
+    return await _manager.authenticateUser(credentials: credentials);
   }
 
   @override
-  Future<UserModel> saveUser(UserModel userModel) async {
-    return await _manager.saveUser(userModel);
+  Future<UserModel> saveUser({required UserModel userModel}) async {
+    return await _manager.saveUser(userModel: userModel);
   }
 }

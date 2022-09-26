@@ -62,10 +62,18 @@ mixin _$SignInControllerImpl on SignInControllerBase, Store {
       AsyncAction('SignInControllerBase.saveUser', context: context);
 
   @override
-  Future<void> saveUser(String name, String lastName, String email,
-      String password, bool isPassenger) {
-    return _$saveUserAsyncAction.run(
-        () => super.saveUser(name, lastName, email, password, isPassenger));
+  Future<void> saveUser(
+      {required String name,
+      required String lastName,
+      required String email,
+      required String password,
+      required bool isPassenger}) {
+    return _$saveUserAsyncAction.run(() => super.saveUser(
+        name: name,
+        lastName: lastName,
+        email: email,
+        password: password,
+        isPassenger: isPassenger));
   }
 
   @override

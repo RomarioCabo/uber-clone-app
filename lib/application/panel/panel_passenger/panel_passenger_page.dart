@@ -140,8 +140,8 @@ class _PanelPassengerPageState extends State<PanelPassengerPage> {
         pixelRatio = MediaQuery.of(context).devicePixelRatio;
       });
 
-      _controller.retrieveCurrentPosition(pixelRatio);
-      _controller.retrieveLastKnownPosition(pixelRatio);
+      _controller.retrieveCurrentPosition(pixelRatio: pixelRatio);
+      _controller.retrieveLastKnownPosition(pixelRatio: pixelRatio);
 
       _controllerMyLocation = TextEditingController();
 
@@ -261,8 +261,8 @@ class _PanelPassengerPageState extends State<PanelPassengerPage> {
       return _controller.cancelUber();
     }
 
-    return _controller
-        .retrieveInformationDestination(_controllerDestination.text);
+    return _controller.retrieveInformationDestination(
+        destinationAddress: _controllerDestination.text);
   }
 
   Widget _buildTextField({

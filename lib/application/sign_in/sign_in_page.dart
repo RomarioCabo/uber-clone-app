@@ -56,11 +56,7 @@ class _SignInPaheState extends State<SignInPage> {
 
   void _stateSave(_) {
     if (_controller.stateSaveUser is Completed) {
-      _controllerName.text = "";
-      _controllerLastName.text = "";
-      _controllerEmail.text = "";
-      _controllerPassword.text = "";
-      _controller.tipoUsuarioPassageiro = false;
+      _clearFields();
 
       alert(
         context,
@@ -78,6 +74,20 @@ class _SignInPaheState extends State<SignInPage> {
         textOK: const Text('FECHAR'),
       );
     }
+  }
+
+  void _clearFields() {
+    _controllerName.text = "";
+    _controllerLastName.text = "";
+    _controllerEmail.text = "";
+    _controllerPassword.text = "";
+    _controller.tipoUsuarioPassageiro = false;
+  }
+
+  bool _isEnable() {
+    return _controller.stateSaveUser is Initial ||
+        _controller.stateSaveUser is Error ||
+        _controller.stateSaveUser is Completed;
   }
 
   @override
@@ -110,28 +120,28 @@ class _SignInPaheState extends State<SignInPage> {
           hintText: "Nome",
           obscureText: false,
           keyboardType: TextInputType.text,
-          enabled: _controller.stateSaveUser is Initial,
+          enabled: _isEnable(),
         ),
         CustomTextField(
           controller: _controllerLastName,
           hintText: "Sobrenome",
           obscureText: false,
           keyboardType: TextInputType.text,
-          enabled: _controller.stateSaveUser is Initial,
+          enabled: _isEnable(),
         ),
         CustomTextField(
           controller: _controllerEmail,
           hintText: "E-mail",
           obscureText: false,
           keyboardType: TextInputType.emailAddress,
-          enabled: _controller.stateSaveUser is Initial,
+          enabled: _isEnable(),
         ),
         CustomTextField(
           controller: _controllerPassword,
           hintText: "Senha",
           obscureText: true,
           keyboardType: TextInputType.emailAddress,
-          enabled: _controller.stateSaveUser is Initial,
+          enabled: _isEnable(),
         ),
         Padding(
           padding: const EdgeInsets.only(bottom: 10),
@@ -157,11 +167,11 @@ class _SignInPaheState extends State<SignInPage> {
           loading: _controller.stateSaveUser is Loading,
           onPressed: () {
             _controller.saveUser(
-              _controllerName.text.trim(),
-              _controllerLastName.text.trim(),
-              _controllerEmail.text.trim(),
-              _controllerPassword.text.trim(),
-              _controller.tipoUsuarioPassageiro,
+              name: _controllerName.text.trim(),
+              lastName: _controllerLastName.text.trim(),
+              email: _controllerEmail.text.trim(),
+              password: _controllerPassword.text.trim(),
+              isPassenger: _controller.tipoUsuarioPassageiro,
             );
           },
           enable: _controller.stateSaveUser is! Loading,

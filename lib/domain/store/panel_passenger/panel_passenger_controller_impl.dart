@@ -33,7 +33,7 @@ abstract class PanelPassengerControllerBase
 
   @observable
   late CameraPosition positionCamera =
-  const CameraPosition(target: LatLng(-23.563999, -46.653256));
+      const CameraPosition(target: LatLng(-23.563999, -46.653256));
 
   @observable
   Set<Marker> markers = {};
@@ -60,13 +60,13 @@ abstract class PanelPassengerControllerBase
   late bool thereIsAnUberRequest = false;
 
   late TaxiShippingHistoryModel? _taxiShippingHistoryModel =
-  TaxiShippingHistoryModel();
+      TaxiShippingHistoryModel();
 
   final TaxiShippingHistoryProviderImpl _taxiShippingHistoryProvider =
-  TaxiShippingHistoryProviderImpl();
+      TaxiShippingHistoryProviderImpl();
 
   final SharedPreferencesProvider _sharedPreferencesProvider =
-  SharedPreferencesProviderImpl();
+      SharedPreferencesProviderImpl();
 
   final TaxiShippingProviderImpl _provider = TaxiShippingProviderImpl();
 
@@ -79,8 +79,10 @@ abstract class PanelPassengerControllerBase
 
       UserModel userModel = _sharedPreferencesProvider.getUser();
 
-      _taxiShippingHistoryModel = await _taxiShippingHistoryProvider
-          .getRouteAwaitingDriverAcceptance(userModel.id!);
+      _taxiShippingHistoryModel =
+          await _taxiShippingHistoryProvider.getRouteAwaitingDriverAcceptance(
+        idPassenger: userModel.id!,
+      );
 
       if (_taxiShippingHistoryModel != null) {
         thereIsAnUberRequest = true;
@@ -104,21 +106,21 @@ abstract class PanelPassengerControllerBase
   }
 
   @override
-  retrieveLastKnownPosition(double pixelRatio) async {
+  retrieveLastKnownPosition({required double pixelRatio}) async {
     Position? position = await Geolocator.getLastKnownPosition();
 
     if (position != null) {
       positionCamera = CameraPosition(
           target: LatLng(position.latitude, position.longitude), zoom: 19);
 
-      _showPassengerBookmark(position, pixelRatio);
+      _showPassengerBookmark(local: position, pixelRatio: pixelRatio);
 
-      _moveCamera(positionCamera);
+      _moveCamera(cameraPosition: positionCamera);
     }
   }
 
   @override
-  retrieveCurrentPosition(double pixelRatio) {
+  retrieveCurrentPosition({required double pixelRatio}) {
     var locationOptions = const LocationSettings(
         accuracy: LocationAccuracy.high, distanceFilter: 10);
 
@@ -127,14 +129,14 @@ abstract class PanelPassengerControllerBase
       positionCamera = CameraPosition(
           target: LatLng(position.latitude, position.longitude), zoom: 19);
 
-      _showPassengerBookmark(position, pixelRatio);
+      _showPassengerBookmark(local: position, pixelRatio: pixelRatio);
 
-      _moveCamera(positionCamera);
+      _moveCamera(cameraPosition: positionCamera);
     });
   }
 
   @override
-  retrieveInformationDestination(String destinationAddress) async {
+  retrieveInformationDestination({required String destinationAddress}) async {
     if (destinationAddress.isEmpty) {
       stateRetrieveInformationDestination = Error(
         error: "O campo destino não pode estar vazio.",
@@ -181,7 +183,7 @@ abstract class PanelPassengerControllerBase
       //}
 
       confirmation =
-      "\nCidade: ${destination.city}\nEstado: ${destination.state}"
+          "\nCidade: ${destination.city}\nEstado: ${destination.state}"
           "\nRua: ${destination.street}\nBairro: ${destination.neighborhood}"
           "\nCep: ${destination.postalCode}";
 
@@ -207,7 +209,7 @@ abstract class PanelPassengerControllerBase
       UserModel userModel = _sharedPreferencesProvider.getUser();
 
       TaxiShippingModel taxiShippingModel = await _provider.callUber(
-        TaxiShippingModel(
+        taxiShippingModel: TaxiShippingModel(
           id: null,
           destination: destination,
           driver: null,
@@ -245,7 +247,7 @@ abstract class PanelPassengerControllerBase
       await Future.delayed(const Duration(seconds: 1));
 
       await _taxiShippingHistoryProvider.cancelUber(
-        TaxiShippingHistoryModel(
+        taxiShippingHistoryModel: TaxiShippingHistoryModel(
           id: null,
           idTaxiShipping: _taxiShippingHistoryModel?.idTaxiShipping,
           statusRoute: StatusRoute.CANCELED_BY_PASSENGER.name,
@@ -267,15 +269,18 @@ abstract class PanelPassengerControllerBase
     }
   }
 
-  _moveCamera(CameraPosition cameraPosition) async {
+  _moveCamera({required CameraPosition cameraPosition}) async {
     GoogleMapController googleMapController = await _googleMapController.future;
     googleMapController
         .animateCamera(CameraUpdate.newCameraPosition(cameraPosition));
   }
 
-  _showPassengerBookmark(Position local, double pixelRatio) async {
+  _showPassengerBookmark({
+    required Position local,
+    required double pixelRatio,
+  }) async {
     final Uint8List? markerIcon =
-    await getBytesFromAsset('imagens/passageiro.png', 150);
+        await getBytesFromAsset(path: 'imagens/passageiro.png', width: 150);
 
     Marker markerPassenger = Marker(
       markerId: const MarkerId("passenger-marker"),
@@ -287,7 +292,10 @@ abstract class PanelPassengerControllerBase
     markers.add(markerPassenger);
   }
 
-  Future<Uint8List?> getBytesFromAsset(String path, int width) async {
+  Future<Uint8List?> getBytesFromAsset({
+    required String path,
+    required int width,
+  }) async {
     ByteData data = await rootBundle.load(path);
     Codec codec = await instantiateImageCodec(data.buffer.asUint8List(),
         targetWidth: width);

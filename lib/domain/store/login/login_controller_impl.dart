@@ -30,22 +30,31 @@ abstract class LoginControllerBase with Store implements LoginController {
 
   @action
   @override
-  Future<void> authenticate(String email, String password) async {
+  Future<void> authenticate({
+    required String email,
+    required String password,
+  }) async {
     try {
+      if (!_validateFields(email: email, password: password)) {
+        return;
+      }
+
       if (kDebugMode) {
         print("locationPermissionIsGranted: $_locationPermissionIsGranted");
       }
 
-      if(_locationPermissionIsGranted) {
+      if (_locationPermissionIsGranted) {
         stateAuthenticate = Loading();
         await Future.delayed(const Duration(seconds: 1));
 
-        user = await _provider.authenticateUser(AuthenticateUserModel(
-          email: email,
-          password: password,
-        ));
+        user = await _provider.authenticateUser(
+          credentials: AuthenticateUserModel(
+            email: email,
+            password: password,
+          ),
+        );
 
-        _sharedPreferencesProvider.saveUser(user);
+        _sharedPreferencesProvider.saveUser(user: user);
 
         stateAuthenticate = Completed();
       } else {
@@ -67,7 +76,8 @@ abstract class LoginControllerBase with Store implements LoginController {
     var status = await Permission.location.status;
 
     if (kDebugMode) {
-      print("requestLocationPermission => locationPermissionIsGranted: $status");
+      print(
+          "requestLocationPermission => locationPermissionIsGranted: $status");
     }
 
     if (status.isGranted) {
@@ -79,9 +89,43 @@ abstract class LoginControllerBase with Store implements LoginController {
     }
 
     if (status.isPermanentlyDenied) {
+      _locationPermissionIsGranted = false;
+
       stateAuthenticate = Error(
-        error: "Você dave liberar o acesso a sua loalização! No momento está permanentimente negeada!",
+        error:
+            "Você dave liberar o acesso a sua loalização! No momento está permanentimente negada!",
       );
     }
+  }
+
+  bool _validateFields({
+    required String email,
+    required String password,
+  }) {
+    if (email.isEmpty && password.isEmpty) {
+      stateAuthenticate = Error(
+        error: "Preecha os campos email e senha",
+      );
+
+      return false;
+    }
+
+    if (email.isEmpty) {
+      stateAuthenticate = Error(
+        error: "Campo email é obrigatório",
+      );
+
+      return false;
+    }
+
+    if (password.isEmpty) {
+      stateAuthenticate = Error(
+        error: "Campo senha é obrigatório",
+      );
+
+      return false;
+    }
+
+    return true;
   }
 }

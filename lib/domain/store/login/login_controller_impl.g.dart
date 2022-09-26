@@ -45,9 +45,9 @@ mixin _$LoginControllerImpl on LoginControllerBase, Store {
       AsyncAction('LoginControllerBase.authenticate', context: context);
 
   @override
-  Future<void> authenticate(String email, String password) {
+  Future<void> authenticate({required String email, required String password}) {
     return _$authenticateAsyncAction
-        .run(() => super.authenticate(email, password));
+        .run(() => super.authenticate(email: email, password: password));
   }
 
   @override

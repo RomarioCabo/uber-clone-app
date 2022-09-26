@@ -1,4 +1,9 @@
 abstract class SignInController {
-  Future<void> saveUser(String name, String lastName, String email,
-      String password, bool isPassenger);
+  Future<void> saveUser({
+    required String name,
+    required String lastName,
+    required String email,
+    required String password,
+    required bool isPassenger,
+  });
 }

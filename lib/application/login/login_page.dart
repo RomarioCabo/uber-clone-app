@@ -33,11 +33,11 @@ class _LoginPageState extends State<LoginPage> {
     _controllerEmail = TextEditingController();
     _controllerPassword = TextEditingController();
 
-    _controllerEmail.text = "romariocabo@gmail.com";
-    // _controllerEmail.text = "gerusatargino@gmail.com";
-    // _controllerEmail.text = "romariocabo2012@gmail.com";
-    // _controllerPassword.text = "123456";
-    _controllerPassword.text = "1234";
+    //_controllerEmail.text = "romario_motorista@gmail.com";
+    //_controllerPassword.text = "1234";
+
+    //_controllerEmail.text = "romario_passageiro@gmail.com";
+    //_controllerPassword.text = "1234";
 
     _controller.requestLocationPermission();
 
@@ -81,6 +81,11 @@ class _LoginPageState extends State<LoginPage> {
     }
   }
 
+  bool _isEnable() {
+    return _controller.stateAuthenticate is Initial ||
+        _controller.stateAuthenticate is Error;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -122,27 +127,24 @@ class _LoginPageState extends State<LoginPage> {
           obscureText: false,
           hintText: "E-mail",
           keyboardType: TextInputType.emailAddress,
-          enabled: _controller.stateAuthenticate is Initial,
+          enabled: _isEnable(),
         ),
         CustomTextField(
           controller: _controllerPassword,
           hintText: "Senha",
           obscureText: true,
           keyboardType: TextInputType.emailAddress,
-          enabled: _controller.stateAuthenticate is Initial,
+          enabled: _isEnable(),
         ),
         CustomButton(
           text: "Entrar",
           color: 0xff37474f,
           loading: _controller.stateAuthenticate is Loading,
           onPressed: () {
-            if (_controllerEmail.text.trim().isNotEmpty &&
-                _controllerPassword.text.trim().isNotEmpty) {
-              _controller.authenticate(
-                _controllerEmail.text.trim(),
-                _controllerPassword.text.trim(),
-              );
-            }
+            _controller.authenticate(
+              email: _controllerEmail.text.trim(),
+              password: _controllerPassword.text.trim(),
+            );
           },
           enable: _controller.stateAuthenticate is! Loading,
         ),

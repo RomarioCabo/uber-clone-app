@@ -8,8 +8,8 @@ class TaxiShippingProviderImpl implements TaxiShippingProvider {
 
   @override
   Future<TaxiShippingModel> callUber(
-      TaxiShippingModel taxiShippingModel) async {
-    return await _manager.callUber(taxiShippingModel);
+      {required TaxiShippingModel taxiShippingModel}) async {
+    return await _manager.callUber(taxiShippingModel: taxiShippingModel);
   }
 
   @override

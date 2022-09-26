@@ -1,3 +1,3 @@
 abstract class LoginController {
-  Future<void> authenticate(String email, String password);
+  Future<void> authenticate({required String email, required String password});
 }

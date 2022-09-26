@@ -32,7 +32,7 @@ abstract class PanelDriverControllerBase
       positionCamera = CameraPosition(
           target: LatLng(position.latitude, position.longitude), zoom: 19);
 
-      _moveCamera(positionCamera);
+      _moveCamera(cameraPosition: positionCamera);
     }
   }
 
@@ -46,11 +46,11 @@ abstract class PanelDriverControllerBase
       positionCamera = CameraPosition(
           target: LatLng(position.latitude, position.longitude), zoom: 19);
 
-      _moveCamera(positionCamera);
+      _moveCamera(cameraPosition: positionCamera);
     });
   }
 
-  _moveCamera(CameraPosition cameraPosition) async {
+  _moveCamera({required CameraPosition cameraPosition}) async {
     GoogleMapController googleMapController = await _googleMapController.future;
     googleMapController
         .animateCamera(CameraUpdate.newCameraPosition(cameraPosition));

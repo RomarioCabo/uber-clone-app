@@ -5,11 +5,11 @@ abstract class PanelPassengerController {
 
   onMapCreated(GoogleMapController controller);
 
-  retrieveLastKnownPosition(double pixelRatio);
+  retrieveLastKnownPosition({required double pixelRatio});
 
-  retrieveCurrentPosition(double pixelRatio);
+  retrieveCurrentPosition({required double pixelRatio});
 
-  retrieveInformationDestination(String destinationAddress);
+  retrieveInformationDestination({required String destinationAddress});
 
   callUber();
 

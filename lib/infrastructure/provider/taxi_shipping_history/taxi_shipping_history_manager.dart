@@ -8,7 +8,7 @@ class TaxiShippingHistoryManager {
   final ApiBaseHelper _helper = ApiBaseHelper();
 
   Future<TaxiShippingHistoryModel?> getRouteAwaitingDriverAcceptance(
-      int idPassenger) async {
+      {required int idPassenger}) async {
     final response = await _helper.get(
       url:
           "$baseUrl/taxi_shipping_history/passenger/waiting_accept_driver/$idPassenger",
@@ -20,7 +20,7 @@ class TaxiShippingHistoryManager {
   }
 
   Future<TaxiShippingHistoryModel> cancelUber(
-      TaxiShippingHistoryModel taxiShippingHistoryModel) async {
+  {required TaxiShippingHistoryModel taxiShippingHistoryModel}) async {
     var json = taxiShippingHistoryModel.model2Json();
 
     if (kDebugMode) {
