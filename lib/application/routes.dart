@@ -52,6 +52,7 @@ class Routes {
     );
   }
 
+  // método para retortar a ssinatura dos métodos corretos
   static dynamic _getArgument(RouteSettings settings) {
     if (settings.arguments is TaxiShippingModel) {
       return settings.arguments as TaxiShippingModel;
