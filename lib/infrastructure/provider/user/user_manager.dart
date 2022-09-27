@@ -10,30 +10,30 @@ class UserManager {
 
   Future<UserModel> authenticateUser(
       {required AuthenticateUserModel credentials}) async {
-    String json = credentials.model2Json();
+    var data = credentials.toJson();
 
     if (kDebugMode) {
-      print(json);
+      print(data);
     }
 
     final response = await _helper.post(
       url: "$baseUrl/user/authenticate",
-      body: json,
+      body: data,
     );
 
     return UserModel.fromJson(response);
   }
 
   Future<UserModel> saveUser({required UserModel userModel}) async {
-    String json = userModel.model2Json();
+    var data = userModel.toJson();
 
     if (kDebugMode) {
-      print(json);
+      print(data);
     }
 
     final response = await _helper.post(
       url: "$baseUrl/user/create",
-      body: json,
+      body: data,
     );
 
     return UserModel.fromJson(response);

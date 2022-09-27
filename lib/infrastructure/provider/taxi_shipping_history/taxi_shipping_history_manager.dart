@@ -20,16 +20,16 @@ class TaxiShippingHistoryManager {
   }
 
   Future<TaxiShippingHistoryModel> cancelUber(
-  {required TaxiShippingHistoryModel taxiShippingHistoryModel}) async {
-    var json = taxiShippingHistoryModel.model2Json();
+      {required TaxiShippingHistoryModel taxiShippingHistoryModel}) async {
+    var data = taxiShippingHistoryModel.toJson();
 
     if (kDebugMode) {
-      print(json);
+      print(data);
     }
 
     final response = await _helper.post(
       url: "$baseUrl/taxi_shipping_history/create",
-      body: json,
+      body: data,
     );
 
     return TaxiShippingHistoryModel.fromJson(response);

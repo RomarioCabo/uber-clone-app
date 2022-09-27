@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import '../destination/destination.dart';
 import '../user/user_model.dart';
 
@@ -34,7 +32,7 @@ class TaxiShippingModel {
         : null;
   }
 
-  String model2Json() {
+  Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['id'] = id;
     if (destination != null) {
@@ -49,6 +47,6 @@ class TaxiShippingModel {
       data['passenger'] = passenger!.toJson();
     }
     data['createdAt'] = createdAt;
-    return jsonEncode(data);
+    return data;
   }
 }

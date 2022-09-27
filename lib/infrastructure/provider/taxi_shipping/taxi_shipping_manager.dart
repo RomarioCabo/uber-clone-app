@@ -9,15 +9,15 @@ class TaxiShippingManager {
 
   Future<TaxiShippingModel> callUber(
       {required TaxiShippingModel taxiShippingModel}) async {
-    String json = taxiShippingModel.model2Json();
+    var data = taxiShippingModel.toJson();
 
     if (kDebugMode) {
-      print(json);
+      print(data);
     }
 
     final response = await _helper.post(
       url: "$baseUrl/taxi_shipping/create",
-      body: json,
+      body: data,
     );
 
     return TaxiShippingModel.fromJson(response);

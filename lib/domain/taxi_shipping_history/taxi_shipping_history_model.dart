@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 class TaxiShippingHistoryModel {
   String? id;
   String? idTaxiShipping;
@@ -34,14 +32,5 @@ class TaxiShippingHistoryModel {
     data['statusRoute'] = statusRoute;
     data['eventDate'] = eventDate;
     return data;
-  }
-
-  String model2Json() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['id'] = id;
-    data['idTaxiShipping'] = idTaxiShipping;
-    data['statusRoute'] = statusRoute;
-    data['eventDate'] = eventDate;
-    return jsonEncode(data);
   }
 }
