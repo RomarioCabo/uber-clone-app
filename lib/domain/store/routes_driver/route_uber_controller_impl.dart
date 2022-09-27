@@ -17,6 +17,9 @@ abstract class RouteUberControllerBase
   RequestState requestStateGetAllUberEligibleRoutes = Initial();
 
   @observable
+  RequestState requestStateTryAgain = Initial();
+
+  @observable
   ObservableList<TaxiShippingModel?> eligibleRoutes = ObservableList();
 
   final TaxiShippingProviderImpl _taxiShippingProvider =
@@ -40,6 +43,21 @@ abstract class RouteUberControllerBase
   @override
   Future<void> reloadAllUberEligibleRoutes() async {
     await _getRoutes();
+  }
+
+  @override
+  tryAgain() async {
+    try {
+      requestStateTryAgain = Loading();
+
+      await _getRoutes();
+
+      requestStateTryAgain = Completed();
+    } catch (e) {
+      requestStateTryAgain = Error(
+        error: e.toString(),
+      );
+    }
   }
 
   _getRoutes() async {

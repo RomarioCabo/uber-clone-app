@@ -129,7 +129,7 @@ class _LoginPageState extends State<LoginPage> {
   Widget _buildMainContent() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: <Widget>[
+      children: [
         Padding(
           padding: const EdgeInsets.only(bottom: 32),
           child: Image.asset(
@@ -153,7 +153,7 @@ class _LoginPageState extends State<LoginPage> {
           enabled: _isEnable(),
         ),
         CustomButton(
-          text: "Entrar",
+          text: "ENTRAR",
           color: 0xff37474f,
           loading: _controller.stateAuthenticate is Loading,
           onPressed: () {
