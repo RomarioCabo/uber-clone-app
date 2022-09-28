@@ -56,9 +56,9 @@ abstract class SignInControllerBase with Store implements SignInController {
       );
 
       stateSaveUser = Completed();
-    } catch (e) {
+    } catch (e, stackTrace) {
       if (kDebugMode) {
-        print(e);
+        print(stackTrace);
       }
 
       stateSaveUser = Error(

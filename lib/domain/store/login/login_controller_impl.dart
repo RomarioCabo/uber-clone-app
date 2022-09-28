@@ -61,9 +61,9 @@ abstract class LoginControllerBase with Store implements LoginController {
         await Permission.location.request();
         requestLocationPermission();
       }
-    } catch (e) {
+    } catch (e, stackTrace) {
       if (kDebugMode) {
-        print(e);
+        print(stackTrace);
       }
 
       stateAuthenticate = Error(

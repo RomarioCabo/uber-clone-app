@@ -19,7 +19,7 @@ class _CustomLoadingDialogState extends State<CustomLoadingDialog> {
     return Scaffold(
       backgroundColor: Colors.transparent,
       body: Container(
-        margin: const EdgeInsets.fromLTRB(120.0, 230.0, 120.0, 230.0),
+        margin: const EdgeInsets.fromLTRB(120.0, 320.0, 120.0, 320.0),
         decoration: BoxDecoration(
           color: Colors.white,
           border: Border.all(

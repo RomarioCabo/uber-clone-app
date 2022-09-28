@@ -14,7 +14,7 @@ class TaxiShippingHistoryManager {
           "$baseUrl/taxi_shipping_history/passenger/waiting_accept_driver/$idPassenger",
     );
 
-    return response == null
+    return response == null || response == ""
         ? null
         : TaxiShippingHistoryModel.fromJson(response);
   }

@@ -209,8 +209,8 @@ class _PanelPassengerPageState extends State<PanelPassengerPage> {
                 : const EdgeInsets.all(10),
             child: CustomButton(
               text: _controller.thereIsAnUberRequest
-                  ? "Cancelar UBER"
-                  : "Chamar UBER",
+                  ? "CANCELAR UBER"
+                  : "CHAMAR UBER",
               color: _controller.thereIsAnUberRequest ? 0xFFD32F2F : 0xff37474f,
               loading:
                   _controller.stateRetrieveInformationDestination is Loading,

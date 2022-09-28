@@ -35,11 +35,11 @@ class _LoginPageState extends State<LoginPage> {
     _controllerEmail = TextEditingController();
     _controllerPassword = TextEditingController();
 
-    _controllerEmail.text = "romario_motorista@gmail.com";
-    _controllerPassword.text = "1234";
-
-    //_controllerEmail.text = "romario_passageiro@gmail.com";
+    //_controllerEmail.text = "romario_motorista@gmail.com";
     //_controllerPassword.text = "1234";
+
+    _controllerEmail.text = "romario_passageiro@gmail.com";
+    _controllerPassword.text = "1234";
 
     _controller.requestLocationPermission();
 

@@ -61,7 +61,7 @@ class _SignInPaheState extends State<SignInPage> {
       alert(
         context,
         title: const Text('Sucesso'),
-        content: const Text('Registro realizado com sucesso!'),
+        content: const Text('Registro salvo com sucesso!'),
         textOK: const Text('FECHAR'),
       );
     }
@@ -162,7 +162,7 @@ class _SignInPaheState extends State<SignInPage> {
           ),
         ),
         CustomButton(
-          text: "Ragistar-se",
+          text: "SALVAR",
           color: 0xff1ebbd8,
           loading: _controller.stateSaveUser is Loading,
           onPressed: () {

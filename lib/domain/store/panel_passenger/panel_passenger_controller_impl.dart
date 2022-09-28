@@ -89,9 +89,9 @@ abstract class PanelPassengerControllerBase
       }
 
       stateGetRouteAwaitingDriverAcceptance = Completed();
-    } catch (e) {
+    } catch (e, stackTrace) {
       if (kDebugMode) {
-        print(e);
+        print(stackTrace);
       }
 
       stateGetRouteAwaitingDriverAcceptance = Error(
@@ -188,9 +188,9 @@ abstract class PanelPassengerControllerBase
           "\nCep: ${destination.postalCode}";
 
       stateRetrieveInformationDestination = Completed();
-    } catch (e) {
+    } catch (e, stackTrace) {
       if (kDebugMode) {
-        print(e);
+        print(stackTrace);
       }
 
       stateRetrieveInformationDestination = Error(
@@ -228,9 +228,9 @@ abstract class PanelPassengerControllerBase
       );
 
       stateCallUber = Completed();
-    } catch (e) {
+    } catch (e, stackTrace) {
       if (kDebugMode) {
-        print(e);
+        print(stackTrace);
       }
 
       stateCallUber = Error(
@@ -258,9 +258,9 @@ abstract class PanelPassengerControllerBase
       thereIsAnUberRequest = false;
 
       stateCancelUber = Completed();
-    } catch (e) {
+    } catch (e, stackTrace) {
       if (kDebugMode) {
-        print(e);
+        print(stackTrace);
       }
 
       stateCancelUber = Error(

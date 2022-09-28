@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:mobx/mobx.dart';
 import 'package:uber_clone/domain/store/routes_driver/route_uber_controller.dart';
 
@@ -33,7 +34,11 @@ abstract class RouteUberControllerBase
       await _getRoutes();
 
       requestStateGetAllUberEligibleRoutes = Completed();
-    } catch (e) {
+    } catch (e, stackTrace) {
+      if (kDebugMode) {
+        print(stackTrace);
+      }
+
       requestStateGetAllUberEligibleRoutes = Error(
         error: e.toString(),
       );
@@ -53,7 +58,11 @@ abstract class RouteUberControllerBase
       await _getRoutes();
 
       requestStateTryAgain = Completed();
-    } catch (e) {
+    } catch (e, stackTrace) {
+      if (kDebugMode) {
+        print(stackTrace);
+      }
+
       requestStateTryAgain = Error(
         error: e.toString(),
       );
