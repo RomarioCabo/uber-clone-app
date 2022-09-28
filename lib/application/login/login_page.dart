@@ -62,29 +62,7 @@ class _LoginPageState extends State<LoginPage> {
 
   void _stateAuthenticate(_) {
     if (_controller.stateAuthenticate is Completed) {
-      if (_controller.user.typeUser == "PASSENGER") {
-        Navigator.pushNamedAndRemoveUntil(
-          context,
-          "/fragment-main",
-          (_) => false,
-          arguments: MethodArguments(
-            title: "Passageiro",
-            whoCalled: WhoCalled.panelPassenger,
-          ),
-        );
-      }
-
-      if (_controller.user.typeUser == "DRIVER") {
-        Navigator.pushNamedAndRemoveUntil(
-          context,
-          "/fragment-main",
-          (_) => false,
-          arguments: MethodArguments(
-            title: "Rotas Disponíveis",
-            whoCalled: WhoCalled.routesUber,
-          ),
-        );
-      }
+      _openPageByTypeUser();
     }
 
     if (_controller.stateAuthenticate is Error) {
@@ -100,6 +78,35 @@ class _LoginPageState extends State<LoginPage> {
   bool _isEnable() {
     return _controller.stateAuthenticate is Initial ||
         _controller.stateAuthenticate is Error;
+  }
+
+  void _openPageByTypeUser() {
+    switch (_controller.user.typeUser) {
+      case "PASSENGER":
+        Navigator.pushNamedAndRemoveUntil(
+          context,
+          "/fragment-main",
+          (_) => false,
+          arguments: MethodArguments(
+            title: "Passageiro",
+            whoCalled: WhoCalled.panelPassenger,
+          ),
+        );
+        break;
+      case "DRIVER":
+        Navigator.pushNamedAndRemoveUntil(
+          context,
+          "/fragment-main",
+          (_) => false,
+          arguments: MethodArguments(
+            title: "Rotas Disponíveis",
+            whoCalled: WhoCalled.routesUber,
+          ),
+        );
+        break;
+      default:
+        break;
+    }
   }
 
   @override

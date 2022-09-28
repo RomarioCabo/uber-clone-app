@@ -59,7 +59,7 @@ class _PanelDriverPageState extends State<PanelDriverPage> {
                 ? const EdgeInsets.fromLTRB(20, 10, 20, 25)
                 : const EdgeInsets.all(10),
             child: CustomButton(
-              text: "Aceitar Corrida",
+              text: "ACEITAR CORRIDA",
               color: 0xff37474f,
               loading: false,
               onPressed: () {},
