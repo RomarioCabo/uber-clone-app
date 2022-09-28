@@ -1,16 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 
-import '../../domain/store/routes_driver/route_uber_controller_impl.dart';
-import '../../infrastructure/helpers/request_state.dart';
 import '../util/custom_button.dart';
 
 class NoContent extends StatefulWidget {
-  final RouteUberControllerImpl controller;
+  final String imagePath;
+  final String alertText;
+  final String buttonText;
+  final Function() function;
 
   const NoContent({
     Key? key,
-    required this.controller,
+    required this.imagePath,
+    required this.alertText,
+    required this.buttonText,
+    required this.function,
   }) : super(key: key);
 
   @override
@@ -36,16 +40,16 @@ class _NoContentState extends State<NoContent> {
                 ),
               ),
               Image.asset(
-                "imagens/no_results_found.png",
+                widget.imagePath,
                 width: 200,
                 height: 150,
               ),
               Container(
                 height: 14.0,
               ),
-              const Text(
-                "Não encontramos nenhuma corrida disponível",
-                style: TextStyle(
+              Text(
+                widget.alertText,
+                style: const TextStyle(
                   color: Colors.grey,
                   fontWeight: FontWeight.w400,
                   fontSize: 16.0,
@@ -57,13 +61,11 @@ class _NoContentState extends State<NoContent> {
               Container(
                 margin: const EdgeInsets.only(left: 60.0, right: 60.0),
                 child: CustomButton(
-                  text: "VERIFICAR NOVAMENTE",
+                  text: widget.buttonText,
                   color: 0xff37474f,
-                  loading: widget.controller.requestStateTryAgain is Loading,
-                  onPressed: () {
-                    widget.controller.tryAgain();
-                  },
-                  enable: widget.controller.requestStateTryAgain is! Loading,
+                  loading: false,
+                  onPressed: widget.function,
+                  enable: true,
                 ),
               ),
             ],

@@ -63,7 +63,14 @@ class _RoutesUberPageState extends State<RoutesUberPage> {
 
   Widget _buildRoutesEligible() {
     return _controller.eligibleRoutes.isEmpty
-        ? NoContent(controller: _controller)
+        ? NoContent(
+            buttonText: 'VERIFICAR NOVAMENTE',
+            alertText: 'Não encontramos nenhuma corrida disponível',
+            imagePath: 'imagens/no_results_found.png',
+            function: () {
+              _controller.getAllUberEligibleRoutes();
+            },
+          )
         : RefreshIndicator(
             color: const Color(0xff37474f),
             onRefresh: _controller.reloadAllUberEligibleRoutes,

@@ -30,6 +30,7 @@ class _FragmentMainState extends State<FragmentMain> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
         title: Text(widget.arguments.title),
         actions: [

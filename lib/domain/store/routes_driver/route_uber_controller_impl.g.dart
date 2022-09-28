@@ -27,23 +27,6 @@ mixin _$RouteUberControllerImpl on RouteUberControllerBase, Store {
     });
   }
 
-  late final _$requestStateTryAgainAtom = Atom(
-      name: 'RouteUberControllerBase.requestStateTryAgain', context: context);
-
-  @override
-  RequestState get requestStateTryAgain {
-    _$requestStateTryAgainAtom.reportRead();
-    return super.requestStateTryAgain;
-  }
-
-  @override
-  set requestStateTryAgain(RequestState value) {
-    _$requestStateTryAgainAtom.reportWrite(value, super.requestStateTryAgain,
-        () {
-      super.requestStateTryAgain = value;
-    });
-  }
-
   late final _$eligibleRoutesAtom =
       Atom(name: 'RouteUberControllerBase.eligibleRoutes', context: context);
 
@@ -64,7 +47,6 @@ mixin _$RouteUberControllerImpl on RouteUberControllerBase, Store {
   String toString() {
     return '''
 requestStateGetAllUberEligibleRoutes: ${requestStateGetAllUberEligibleRoutes},
-requestStateTryAgain: ${requestStateTryAgain},
 eligibleRoutes: ${eligibleRoutes}
     ''';
   }
